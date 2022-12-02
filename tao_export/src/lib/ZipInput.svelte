@@ -12,11 +12,14 @@
   let files: FileList;
   let assets: zipObj[];
   let questions: QuestionType[] = [];
+  let title = "Tao-PDF exporter";
 
   $: if (files) {
     const init = async () => {
       const zipReader = new ZipReader(files[0].stream());
       const entries = await zipReader.getEntries();
+
+      title = files[0].name.split(".")[0].split("_")[0].toUpperCase();
 
       // Parse asset
       assets = entries
@@ -44,6 +47,10 @@
     init(); // Work around to use async/await
   }
 </script>
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 {#if questions.length > 0}
