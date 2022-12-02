@@ -62,15 +62,20 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     .getElementsByTagName("assessmentItem")[0]
     .getAttribute("title");
 
+  if (
+    !!["Voorbeeld", "Exemple", "fraag"].find(
+      (t) => title.toLowerCase().includes(t.toLowerCase())
+    )
+  )
+    return undefined;
+
   const QCM = !!["vraag", "question", "fraag"].find(
     (t) => t === title.toLowerCase().split(" ")[0]
   );
 
-  const QO = !!["OP", "QO", "Open Vraag", "Question ouverte"].find(
-    (t) =>
-      !(title.length > t.length + 3) &&
-      title.toLowerCase().includes(t.toLowerCase())
-  );
+  const QO =
+    xDoc.getElementsByTagName("extendedTextInteraction").length != 0 ||
+    xDoc.getElementsByTagName("textEntryInteraction").length != 0;
   if (!QCM && !QO) return undefined;
 
   let answers;
@@ -82,6 +87,10 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   } else {
     prompt = Array.from(xDoc.getElementsByTagName("prompt"));
     // Get correct answer mapping
+    if (xDoc.getElementsByTagName("mapping").length === 0) {
+      console.log(title);
+      return undefined;
+    }
     const answerMapping = Array.from(
       xDoc.getElementsByTagName("mapping")[0].children
     ).map((child) => ({
