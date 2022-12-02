@@ -41,8 +41,8 @@ export const readAndParseXml = async (xml: zipObj) => {
 
 export type QuestionType = {
   title: string;
-  question: boolean;
-  prompt: Element;
+  type: "QCM" | "QO" | "unknown";
+  prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
 };
 
@@ -62,40 +62,50 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     .getElementsByTagName("assessmentItem")[0]
     .getAttribute("title");
 
-  const question = !!["vraag", "question", "fraag"].find(
+  const QCM = !!["vraag", "question", "fraag"].find(
     (t) => t === title.toLowerCase().split(" ")[0]
   );
 
-  if (!question) return undefined;
-
-  // Get correct answer mapping
-  const answerMapping = Array.from(
-    xDoc.getElementsByTagName("mapping")[0].children
-  ).map((child) => ({
-    id: child.attributes[0].nodeValue,
-    point: child.attributes[1].nodeValue,
-    correct: Number.parseInt(child.attributes[1].nodeValue) > 0,
-  }));
-
-  // Get prompt
-
-  const prompt = xDoc.getElementsByTagName("prompt")[0];
-
-  const answers = Array.from(xDoc.getElementsByTagName("simpleChoice")).map(
-    (answer) => ({
-      txt: answer.innerHTML,
-      point: answerMapping.find(
-        (m) => m.id === answer.getAttribute("identifier")
-      ).point,
-      id: answer.getAttribute("identifier"),
-      correct: answerMapping.find(
-        (m) => m.id === answer.getAttribute("identifier")
-      ).correct,
-    })
+  const QO = !!["OP", "QO", "Open Vraag", "Question ouverte"].find(
+    (t) =>
+      !(title.length > t.length + 3) &&
+      title.toLowerCase().includes(t.toLowerCase())
   );
+  if (!QCM && !QO) return undefined;
+
+  let answers;
+  let prompt;
+
+  if (QO) {
+    answers = [];
+    prompt = Array.from(xDoc.getElementsByTagName("itemBody"));
+  } else {
+    prompt = Array.from(xDoc.getElementsByTagName("prompt"));
+    // Get correct answer mapping
+    const answerMapping = Array.from(
+      xDoc.getElementsByTagName("mapping")[0].children
+    ).map((child) => ({
+      id: child.attributes[0].nodeValue,
+      point: child.attributes[1].nodeValue,
+      correct: Number.parseInt(child.attributes[1].nodeValue) > 0,
+    }));
+    answers = Array.from(xDoc.getElementsByTagName("simpleChoice")).map(
+      (answer) => ({
+        txt: answer.innerHTML,
+        point: answerMapping.find(
+          (m) => m.id === answer.getAttribute("identifier")
+        ).point,
+        id: answer.getAttribute("identifier"),
+        correct: answerMapping.find(
+          (m) => m.id === answer.getAttribute("identifier")
+        ).correct,
+      })
+    );
+  }
+
   return {
     title,
-    question,
+    type: QCM ? "QCM" : QO ? "QO" : "unknown",
     prompt,
     answers,
   };

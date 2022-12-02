@@ -14,7 +14,9 @@
   <div class="question" bind:this={questionDom}>
     <div class="title">{question.title}</div>
     <div class="prompt">
-      {@html question.prompt.innerHTML}
+      {#each question.prompt as prompt}
+        {@html prompt.innerHTML}
+      {/each}
     </div>
 
     <ul class="answers">
