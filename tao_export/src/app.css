@@ -28,7 +28,7 @@ body {
 }
 
 @media print {
-  #zip {
+  #zip, header {
     display: none !important;
   }
 }
