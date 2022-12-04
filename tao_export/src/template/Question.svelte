@@ -5,9 +5,6 @@
 
   let questionDom;
 
-  $: if (questionDom) {
-    //console.log(questionDom);
-  }
 </script>
 
 <div>
@@ -19,14 +16,16 @@
       {/each}
     </div>
 
-    <ul class="answers">
-      {#each question.answers as answer}
-        <li class={`answer ${answer.correct ? "correct" : ""}`}>
-          <div class="text">{@html answer.txt}</div>
-          <div class="points">{answer.point}</div>
-        </li>
-      {/each}
-    </ul>
+    {#if question.type !== "QO"}
+      <ul class="answers">
+        {#each question.answers as answer}
+          <li class={`answer ${answer.correct ? "correct" : ""}`}>
+            <div class="text">{@html answer.txt}</div>
+            <div class="points">{answer.point}</div>
+          </li>
+        {/each}
+      </ul>
+    {/if}
   </div>
 </div>
 

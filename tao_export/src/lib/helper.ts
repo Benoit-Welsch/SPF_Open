@@ -90,8 +90,8 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   );
 
   const QO =
-    xDoc.getElementsByTagName("extendedTextInteraction").length != 0 ||
-    xDoc.getElementsByTagName("textEntryInteraction").length != 0;
+    xDoc.getElementsByTagName("extendedTextInteraction").length > 0 ||
+    xDoc.getElementsByTagName("textEntryInteraction").length > 0;
   if (!QCM && !QO) return undefined;
 
   let answers;
@@ -104,7 +104,6 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     prompt = Array.from(xDoc.getElementsByTagName("prompt"));
     // Get correct answer mapping
     if (xDoc.getElementsByTagName("mapping").length === 0) {
-      console.log(title);
       return undefined;
     }
     const answerMapping = Array.from(
@@ -128,9 +127,13 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     );
   }
 
+  //console.log(QCM)
+
+  //console.log(QCM ? "QCM" : QO ? "QO" : "unknown",);
+
   return {
     title,
-    type: QCM ? "QCM" : QO ? "QO" : "unknown",
+    type: answers.length > 0 ? "QCM" : "QO",
     prompt,
     answers,
   };
