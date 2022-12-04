@@ -1,4 +1,4 @@
-import { TextWriter, type Entry } from "@zip.js/zip.js";
+import { TextWriter, BlobWriter, type Entry } from "@zip.js/zip.js";
 
 export type zipObj = {
   path: any;
@@ -29,13 +29,39 @@ export const associateAssets = (xml: zipObj, assets: zipObj[]) => {
   return { ...xml, assets: asset };
 };
 
-export const readAndParseXml = async (xml: zipObj) => {
+export const readAndParseXml = async (xml: zipObj, assets: zipObj[]) => {
   const writter = new TextWriter();
   const parser = new DOMParser();
+
   const xmlDoc = parser.parseFromString(
     await xml._raw.getData(writter),
     "text/xml"
   );
+
+  // Inject assets
+  const imgs = xmlDoc.getElementsByTagName("img");
+
+  if (imgs.length > 0) {
+    await Promise.all(
+      Array.from(imgs).map(async (img) => {
+        const data = {
+          id: img.getAttribute("src").split("/").pop(),
+          src: img.getAttribute("src"),
+          alt: img.getAttribute("alt"),
+          type: img.getAttribute("type"),
+          width: img.getAttribute("width"),
+        };
+        const asset = assets.find((asset) => asset.name === data.id);
+        if (asset) {
+          const writter = new BlobWriter();
+          asset._raw.getData(writter);
+          img.setAttribute("src", URL.createObjectURL(await writter.getData()));
+          img.parentElement.replaceChild(img, img);
+        }
+      })
+    );
+  }
+
   return { ...xml, xml: xmlDoc };
 };
 
@@ -46,16 +72,6 @@ export type QuestionType = {
   answers: { txt: string; point: string; id: string; correct: boolean }[];
 };
 
-// export const insertAsset = async (html: string, assets: zipObj[]) => {
-//   const write = new TextWriter();
-//   const blob = new Blob([await assets[0]._raw.getData(write)]);
-
-//   const search = 'src="assets/';
-//   const start = html.indexOf(search);
-//   if (start < 0) return html;
-//   //console.log(html.slice(0, start - 1) + html.slice(start + end, html.length));
-// };
-
 export const xmlToObj = (xml: zipObj): QuestionType => {
   const xDoc = xml.xml;
   const title = xDoc
@@ -63,8 +79,8 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     .getAttribute("title");
 
   if (
-    !!["Voorbeeld", "Exemple", "fraag"].find(
-      (t) => title.toLowerCase().includes(t.toLowerCase())
+    !!["Voorbeeld", "Exemple", "fraag"].find((t) =>
+      title.toLowerCase().includes(t.toLowerCase())
     )
   )
     return undefined;
