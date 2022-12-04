@@ -19,7 +19,11 @@
       const zipReader = new ZipReader(files[0].stream());
       const entries = await zipReader.getEntries();
 
-      title = files[0].name.split(".")[0].split("_")[0].toUpperCase();
+      const newTitle = files[0].name.split(".")[0].split("_")[0].toUpperCase();
+
+      if (title == newTitle) return;
+
+      title = newTitle;
 
       // Parse asset
       assets = entries
@@ -39,7 +43,7 @@
               !entry.filename.endsWith("test.xml")
           )
           .map(entryToObj) // format obj
-          .map(readAndParseXml) // parse xml
+          .map((obj) => readAndParseXml(obj, assets)) // parse xml
       );
 
       questions = xmls.map(xmlToObj).filter((q) => q);
