@@ -79,15 +79,13 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     .getAttribute("title");
 
   if (
-    !!["Voorbeeld", "Exemple", "fraag"].find((t) =>
+    !!["Voorbeeld", "Exemple"].find((t) =>
       title.toLowerCase().includes(t.toLowerCase())
     )
   )
     return undefined;
 
-  const QCM = !!["vraag", "question", "fraag"].find(
-    (t) => t === title.toLowerCase().split(" ")[0]
-  );
+  const QCM = xDoc.getElementsByTagName("mapping").length > 0
 
   const QO =
     xDoc.getElementsByTagName("extendedTextInteraction").length > 0 ||
