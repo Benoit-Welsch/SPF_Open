@@ -4,7 +4,7 @@
   //export let assets: zipObj[];
 
   let questionDom;
-
+  export let hideAnswer = false;
 </script>
 
 <div>
@@ -19,9 +19,13 @@
     {#if question.type !== "QO"}
       <ul class="answers">
         {#each question.answers as answer}
-          <li class={`answer ${answer.correct ? "correct" : ""}`}>
+          <li
+            class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}
+          >
             <div class="text">{@html answer.txt}</div>
-            <div class="points">{answer.point}</div>
+            {#if !hideAnswer}
+              <div class="points">{answer.point}</div>
+            {/if}
           </li>
         {/each}
       </ul>

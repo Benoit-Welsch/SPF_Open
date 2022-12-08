@@ -31,6 +31,9 @@ body {
   #zip, header {
     display: none !important;
   }
+  .hide-print{
+    display: none !important;
+  }
 }
 
 p{

@@ -8,6 +8,9 @@
     type QuestionType,
     type zipObj,
   } from "./helper";
+  import Settings from "./Settings.svelte";
+
+  let hideAnswer = false;
 
   let files: FileList;
   let assets: zipObj[];
@@ -57,8 +60,9 @@
 </svelte:head>
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
+<Settings bind:hideAnswer />
 {#if questions.length > 0}
   {#each questions as question}
-    <Question {question} />
+    <Question {question} bind:hideAnswer />
   {/each}
 {/if}
