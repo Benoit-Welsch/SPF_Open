@@ -61,8 +61,20 @@
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 <Settings bind:hideAnswer />
+
 {#if questions.length > 0}
+  <div class="nb-questions hide-print">
+    <span class="QO"
+      >QO : {questions.filter((q) => q.type === "QO").length}</span
+    >
+    <span class="QCM">
+      QCM : {questions.filter((q) => q.type === "QCM").length}
+    </span>
+  </div>
   {#each questions as question}
     <Question {question} bind:hideAnswer />
   {/each}
 {/if}
+
+<style>
+</style>
