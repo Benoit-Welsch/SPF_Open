@@ -2,7 +2,10 @@
   import ZipInput from "./lib/ZipInput.svelte";
 </script>
 
-<header>&copy;Benoit-Welsch - Dec-2022</header>
+<header>
+  <div class="copy">&copy;Benoit-Welsch - 02-2023</div>
+  <div class="doc"><a href="/documentation.pdf">Documentation</a></div>
+</header>
 <main><ZipInput /></main>
 
 <style>
@@ -11,5 +14,8 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
   }
 </style>
