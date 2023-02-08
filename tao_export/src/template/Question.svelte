@@ -24,7 +24,7 @@
           >
             <div class="text">{@html answer.txt}</div>
             {#if !hideAnswer}
-              <div class="points">{answer.point}</div>
+              <div class="points">{answer.point || 0}</div>
             {/if}
           </li>
         {/each}

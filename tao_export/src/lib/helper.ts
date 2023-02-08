@@ -85,7 +85,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   )
     return undefined;
 
-  const QCM = xDoc.getElementsByTagName("mapping").length > 0
+  const QCM = xDoc.getElementsByTagName("mapping").length > 0;
 
   const QO =
     xDoc.getElementsByTagName("extendedTextInteraction").length > 0 ||
@@ -108,19 +108,19 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
       xDoc.getElementsByTagName("mapping")[0].children
     ).map((child) => ({
       id: child.attributes[0].nodeValue,
-      point: child.attributes[1].nodeValue,
-      correct: Number.parseInt(child.attributes[1].nodeValue) > 0,
+      point: child.attributes[1].nodeValue || 0,
+      correct: Number.parseInt(child.attributes[1].nodeValue) > 0 || false,
     }));
     answers = Array.from(xDoc.getElementsByTagName("simpleChoice")).map(
       (answer) => ({
         txt: answer.innerHTML,
-        point: answerMapping.find(
-          (m) => m.id === answer.getAttribute("identifier")
-        ).point,
+        point:
+          answerMapping.find((m) => m.id === answer.getAttribute("identifier"))
+            ?.point || 0,
         id: answer.getAttribute("identifier"),
-        correct: answerMapping.find(
-          (m) => m.id === answer.getAttribute("identifier")
-        ).correct,
+        correct:
+          answerMapping.find((m) => m.id === answer.getAttribute("identifier"))
+            ?.correct || false,
       })
     );
   }
