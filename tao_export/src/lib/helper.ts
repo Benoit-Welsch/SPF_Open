@@ -95,11 +95,18 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   let answers;
   let prompt;
 
+  let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
+
   if (QO) {
     answers = [];
-    prompt = Array.from(xDoc.getElementsByTagName("itemBody"));
+    prompt = inner;
   } else {
-    prompt = Array.from(xDoc.getElementsByTagName("prompt"));
+    prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
+      (d) => d.getElementsByTagName("simpleChoice").length === 0
+    );
+
+    prompt = prompt.concat(Array.from(inner.getElementsByTagName("prompt")));
+
     // Get correct answer mapping
     if (xDoc.getElementsByTagName("mapping").length === 0) {
       return undefined;
