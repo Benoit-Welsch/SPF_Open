@@ -99,7 +99,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
 
   if (QO) {
     answers = [];
-    prompt = inner;
+    prompt = [inner];
   } else {
     prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
       (d) => d.getElementsByTagName("simpleChoice").length === 0
