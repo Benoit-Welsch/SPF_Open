@@ -1,9 +1,8 @@
 <script lang="ts">
-  import Input from "./lib/Input.svelte";
-
+  import Menu from "./lib/Menu.svelte";
 </script>
 
-<Input/>
+<Menu />
 
 <style>
 </style>
