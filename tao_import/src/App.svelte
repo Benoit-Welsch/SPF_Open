@@ -1,9 +1,58 @@
 <script lang="ts">
-  import Input from "./lib/Input.svelte";
+  import * as XLSX from "xlsx";
+  import Menu from "./lib/Menu.svelte";
+  import PreviewTao from "./lib/question/PreviewTAO.svelte";
+  import { parseSheet } from "./lib/question/questions";
+  import { currentSheet, file, sheetNames } from "./lib/store";
 
+  let currentSheetHolder = [];
+  let workbook;
+
+  file.subscribe(async (f) => {
+    if (!f) return;
+    workbook = XLSX.read(await f.arrayBuffer());
+    sheetNames.set(workbook.SheetNames);
+  });
+
+  currentSheet.subscribe(async (name) => {
+    if (!name) return;
+    setTimeout(() => {
+      currentSheetHolder = parseSheet(workbook.Sheets[name]);
+    }, 100);
+  });
 </script>
 
-<Input/>
+<main>
+  <div class="left">
+    <Menu />
+  </div>
+  <PreviewTao bind:QCMs={currentSheetHolder} />
+</main>
 
 <style>
+  main {
+    min-width: 1280px;
+    min-height: 100vh;
+    max-width: 1500px;
+    margin: 50px auto;
+    display: flex;
+    justify-items: center;
+  }
+  .left {
+    width: 400px;
+  }
+  main :global(.questions) {
+    width: calc(100% - 400px);
+  }
+
+  @media only screen and (max-width: 1280px) {
+    .left :global(.menu) {
+      position: relative;
+    }
+  }
+  @media print {
+    div :global(.questions) {
+      margin-left: 0 !important;
+    }
+  }
 </style>
