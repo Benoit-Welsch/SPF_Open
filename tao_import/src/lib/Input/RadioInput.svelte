@@ -11,6 +11,7 @@
   export let choice: string = "";
 
   let findSelection = () => {
+    if (inputChoices.length < 1) return;
     const { id, txt, value } = inputChoices.find((input) => input.selected);
     choice = value ? value : id ? id : txt;
   };
@@ -21,14 +22,16 @@
 <fieldset>
   <legend>{title}</legend>
   {#each inputChoices as { id, txt, value }}
-    <input
-      type="radio"
-      name=""
-      id={id ? id : txt}
-      value={value ? value : id ? id : txt}
-      bind:group={choice}
-    />
-    <label for={id ? id : txt}>{txt}</label>
+    <div class="radio">
+      <input
+        type="radio"
+        name=""
+        id={id ? id : txt}
+        value={value ? value : id ? id : txt}
+        bind:group={choice}
+      />
+      <label for={id ? id : txt}>{txt}</label>
+    </div>
   {/each}
 </fieldset>
 
@@ -42,26 +45,33 @@
     font-weight: bold;
     color: #00566b;
     border-radius: 12px;
+    min-height: 34px;
   }
   legend {
     color: #4d8997;
     font-size: 12px;
   }
+  .radio {
+    display: inline-flex;
+    align-items: center;
+  }
   input {
     margin-top: 0;
     margin-right: 0px;
-    font-size: 16px;
+    height: 12px;
+    width: 12px;
     cursor: pointer;
     appearance: none;
     border-radius: 50%;
     border: 6px solid #d9d9d9;
-    transition: 0.4s ease-in-out;
+    transition: 0.3s;
   }
   input:checked {
     border: 6px solid #43cc2d;
   }
   label {
-    margin-left: -8px;
+    font-size: 16px;
     cursor: pointer;
+    padding-left: 4px;
   }
 </style>

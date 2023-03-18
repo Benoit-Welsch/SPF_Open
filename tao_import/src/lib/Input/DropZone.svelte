@@ -1,10 +1,14 @@
 <script lang="ts">
   import DropZone from "svelte-atoms/DropZone.svelte";
+  import { file } from "../store";
 
   let fileName = "";
-  const onChange = (e) => {
-    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-    fileName = file ? file.name : "";
+  const onChange = async (e) => {
+    const fileTemp = e.dataTransfer
+      ? e.dataTransfer.files[0]
+      : e.target.files[0];
+    fileName = fileTemp ? fileTemp.name : "";
+    file.update(() => fileTemp);
   };
 </script>
 

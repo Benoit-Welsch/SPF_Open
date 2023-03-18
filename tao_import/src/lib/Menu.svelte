@@ -1,10 +1,21 @@
 <script>
   import DropZone from "./Input/DropZone.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
+  import { currentSheet, sheetNames } from "./store";
+  let sheet;
+
+  sheetNames.subscribe(
+    (s) => (sheet = s.map((s, n) => ({ txt: s, selected: n === 0 })))
+  );
 </script>
 
-<div class="menu">
+<div class="menu hide-print">
   <div class="choiceSelection">
+    <RadioInput
+      title="Sheet"
+      inputChoices={sheet}
+      bind:choice={$currentSheet}
+    />
     <RadioInput
       title="Format"
       inputChoices={[
@@ -12,14 +23,6 @@
         { txt: "PDF" },
         { txt: "PPTX" },
         { txt: "QTI" },
-      ]}
-    />
-    <RadioInput
-      title="Sheet"
-      inputChoices={[
-        { txt: "NL", selected: true },
-        { txt: "FR" },
-        { txt: "DE" },
       ]}
     />
     <RadioInput
@@ -32,6 +35,9 @@
 
 <style>
   .menu {
+    z-index: 1;
+    background-color: white;
+    position: fixed;
     border: 2px dotted #00566b;
     padding: 10px;
     border-radius: 12px;
@@ -41,22 +47,13 @@
     width: fit-content;
   }
   .choiceSelection {
-    display: grid;
-    max-width: fit-content;
-    grid-template-columns: minmax(0, 0.5fr) minmax(0, 0.5fr);
+    display: flex;
+    max-width: 360px;
+    flex-wrap: wrap;
   }
   .choiceSelection :global(fieldset:first-child) {
-    grid-column: 1 2;
-    grid-row: 1;
-    width: 320px;
-  }
-  .choiceSelection :global(fieldset:nth-child(2)) {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .choiceSelection :global(fieldset:nth-child(3)) {
-    grid-column: 2;
-    grid-row: 2;
+    width: 100%;
+    height: 34px;
   }
   .menu :global(div:last-child) {
     margin-top: auto;
