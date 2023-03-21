@@ -1,5 +1,7 @@
 <script lang="ts">
   import { ZipReader } from "@zip.js/zip.js";
+  import html2pdf from "html2pdf.js";
+
   import Question from "../template/Question.svelte";
   import {
     entryToObj,
@@ -12,11 +14,14 @@
 
   let hideAnswer = false;
   let showInstruction = false;
+  let heightInPx = 0;
 
   let files: FileList;
   let assets: zipObj[];
   let questions: QuestionType[] = [];
   let title = "Tao-PDF exporter";
+
+  let HtmlTAOPDF;
 
   $: if (files) {
     const init = async () => {
@@ -53,6 +58,19 @@
     };
     init(); // Work around to use async/await
   }
+
+  const makePdfOnClick = () => {
+    console.log(heightInPx);
+    console.log(HtmlTAOPDF);
+    html2pdf(HtmlTAOPDF, {
+      filename: title + " - Export TAO",
+      html2canvas: { dpi: 1200 },
+      jsPDF: {
+        unit: "px",
+        format: [Math.min(heightInPx / 3, 14400), 1000],
+      },
+    });
+  };
 </script>
 
 <svelte:head>
@@ -61,7 +79,9 @@
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 <Settings bind:hideAnswer bind:showInstruction />
-
+<button class="hide-print" on:click|preventDefault={makePdfOnClick}
+  >Get PDF</button
+>
 {#if questions.length > 0}
   <div class="nb-questions hide-print">
     <span class="QO"
@@ -71,11 +91,13 @@
       QCM : {questions.filter((q) => q.type === "QCM").length}
     </span>
   </div>
-  {#each questions as question}
-    {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
-      <Question {question} bind:hideAnswer />
-    {/if}
-  {/each}
+  <div bind:this={HtmlTAOPDF} bind:clientHeight={heightInPx}>
+    {#each questions as question}
+      {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
+        <Question {question} bind:hideAnswer />
+      {/if}
+    {/each}
+  </div>
 {/if}
 
 <style>

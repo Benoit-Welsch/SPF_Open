@@ -24,7 +24,7 @@
   <label for="hide-answer">Hide</label>
 </fieldset>
 
-<fieldset>
+<fieldset class="hide-print">
   <legend>Instruction</legend>
   <input
     type="radio"

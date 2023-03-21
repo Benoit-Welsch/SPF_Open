@@ -8,7 +8,11 @@
 </script>
 
 <div>
-  <div class="question" bind:this={questionDom}>
+  <div
+    class="question"
+    bind:this={questionDom}
+    style="page-break-inside: avoid !important; break-inside: avoid;"
+  >
     <div class="title">{question.title}</div>
     <div class="prompt">
       {#each question.prompt as prompt}
