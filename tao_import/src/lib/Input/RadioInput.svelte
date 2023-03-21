@@ -13,7 +13,9 @@
 
   let findSelection = () => {
     if (inputChoices.length < 1) return;
-    const { id, txt, value } = inputChoices.find((input) => input.selected);
+    let select = inputChoices.find((input) => input.selected);
+    if (!select) select = inputChoices[0];
+    const { id, txt, value } = select;
     choice = value ? value : id ? id : txt;
   };
 

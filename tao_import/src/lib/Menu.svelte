@@ -20,7 +20,7 @@
     <RadioInput
       title="Format"
       inputChoices={[
-        { txt: "CSV", selected: false },
+        { txt: "CSV", selected: true },
         { txt: "PDF", disabled: true },
         { txt: "WORD", disabled: true },
         { txt: "PPTX", disabled: true },
