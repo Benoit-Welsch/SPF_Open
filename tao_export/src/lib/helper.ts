@@ -67,7 +67,13 @@ export const readAndParseXml = async (xml: zipObj, assets: zipObj[]) => {
 
 export type QuestionType = {
   title: string;
-  type: "QCM" | "QO" | "Instruction" | "unknown";
+  type:
+    | "QCM"
+    | "QO"
+    | "Instruction"
+    | "Instruction QCM"
+    | "Instruction QO"
+    | "unknown";
   prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
 };
@@ -87,14 +93,6 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
       .getElementsByTagName("assessmentItem")[0]
       .getAttribute("title");
   }
-
-  // Hide "Voorbeeld"/"Exemple"
-  if (
-    !!["Voorbeeld", "Exemple"].find((t) =>
-      title.toLowerCase().includes(t.toLowerCase())
-    )
-  )
-    return undefined;
 
   const QCM = xDoc.getElementsByTagName("mapping").length > 0;
 
@@ -117,15 +115,34 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
   if (Instructie) {
-    prompt = Array.from(xDoc.getElementsByTagName("assessmentTest"));
+    prompt = "qsd" || Array.from(xDoc.getElementsByTagName("assessmentTest"));
     answers = [];
     type = "Instruction";
   } else if (QO) {
+    if (
+      !!["Voorbeeld", "Exemple"].find((t) =>
+        title.toLowerCase().includes(t.toLowerCase())
+      )
+    ) {
+      type = "Instruction QO";
+    } else {
+      type = "QO";
+    }
     answers = [];
     prompt = [inner];
-    type = "QO";
   } else {
-    type = "QCM";
+    if (
+      !!["Voorbeeld", "Exemple"].find((t) =>
+        title.toLowerCase().includes(t.toLowerCase())
+      )
+    ) {
+      type = "Instruction QCM";
+    } else {
+      type = "QCM";
+    }
+
+    console.log(type);
+
     prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
       (d) => d.getElementsByTagName("simpleChoice").length === 0
     );
@@ -133,9 +150,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     prompt = prompt.concat(Array.from(inner.getElementsByTagName("prompt")));
 
     // Get correct answer mapping
-    if (xDoc.getElementsByTagName("mapping").length === 0) {
-      return undefined;
-    }
+
     const answerMapping = Array.from(
       xDoc.getElementsByTagName("mapping")[0].children
     ).map((child) => ({

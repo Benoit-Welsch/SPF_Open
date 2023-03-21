@@ -43,8 +43,7 @@
           .filter(
             (entry) =>
               entry.filename.endsWith(".xml") &&
-              entry.filename !== "imsmanifest.xml" &&
-              !entry.filename.endsWith("test.xml")
+              entry.filename !== "imsmanifest.xml"
           )
           .map(entryToObj) // format obj
           .map((obj) => readAndParseXml(obj, assets)) // parse xml
@@ -73,7 +72,7 @@
     </span>
   </div>
   {#each questions as question}
-    {#if (question.type !== "unknown" && question.type !== "Instruction") || (question.type === "Instruction" && showInstruction)}
+    {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
       <Question {question} bind:hideAnswer />
     {/if}
   {/each}
