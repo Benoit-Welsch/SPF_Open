@@ -1,7 +1,8 @@
 <script>
+  import Download from "./Input/Download.svelte";
   import DropZone from "./Input/DropZone.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
-  import { currentSheet, sheetNames } from "./store";
+  import { currentSheet, sheetNames, selectedFormat } from "./store";
   let sheet;
 
   sheetNames.subscribe(
@@ -19,18 +20,26 @@
     <RadioInput
       title="Format"
       inputChoices={[
-        { txt: "CSV", selected: true },
-        { txt: "PDF" },
-        { txt: "PPTX" },
-        { txt: "QTI" },
+        { txt: "CSV", selected: false },
+        { txt: "PDF", disabled: true },
+        { txt: "WORD", disabled: true },
+        { txt: "PPTX", disabled: true },
+        { txt: "QTI", disabled: true },
       ]}
+      bind:choice={$selectedFormat}
     />
     <RadioInput
-      title="Preview"
-      inputChoices={[{ txt: "ON", selected: true }, { txt: "OFF" }]}
+      title="Compare"
+      inputChoices={[
+        { txt: "OFF", selected: true },
+        { txt: "ON", disabled: true },
+      ]}
     />
   </div>
-  <DropZone />
+  <div class="bottom">
+    <Download />
+    <DropZone />
+  </div>
 </div>
 
 <style>
@@ -55,7 +64,10 @@
     width: 100%;
     height: 34px;
   }
-  .menu :global(div:last-child) {
+  .menu .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: auto;
     width: 100%;
   }
