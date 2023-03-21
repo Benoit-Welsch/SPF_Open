@@ -67,7 +67,7 @@ export const readAndParseXml = async (xml: zipObj, assets: zipObj[]) => {
 
 export type QuestionType = {
   title: string;
-  type: "QCM" | "QO" | "unknown";
+  type: "QCM" | "QO" | "Instruction" | "unknown";
   prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
 };
@@ -104,7 +104,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   if (!QCM && !QO && !Instructie) {
     return {
       title,
-      type: "QO",
+      type: "Instruction",
       prompt: Array.from(xDoc.getElementsByClassName("grid-row")),
       answers: [],
     };
@@ -112,16 +112,20 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
 
   let answers;
   let prompt;
+  let type;
 
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
   if (Instructie) {
     prompt = Array.from(xDoc.getElementsByTagName("assessmentTest"));
     answers = [];
+    type = "Instruction";
   } else if (QO) {
     answers = [];
     prompt = [inner];
+    type = "QO";
   } else {
+    type = "QCM";
     prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
       (d) => d.getElementsByTagName("simpleChoice").length === 0
     );
@@ -159,7 +163,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
 
   return {
     title,
-    type: answers.length > 0 ? "QCM" : "QO",
+    type,
     prompt,
     answers,
   };

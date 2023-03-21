@@ -11,6 +11,7 @@
   import Settings from "./Settings.svelte";
 
   let hideAnswer = false;
+  let showInstruction = false;
 
   let files: FileList;
   let assets: zipObj[];
@@ -60,7 +61,7 @@
 </svelte:head>
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
-<Settings bind:hideAnswer />
+<Settings bind:hideAnswer bind:showInstruction />
 
 {#if questions.length > 0}
   <div class="nb-questions hide-print">
@@ -72,7 +73,9 @@
     </span>
   </div>
   {#each questions as question}
-    <Question {question} bind:hideAnswer />
+    {#if (question.type !== "unknown" && question.type !== "Instruction") || (question.type === "Instruction" && showInstruction)}
+      <Question {question} bind:hideAnswer />
+    {/if}
   {/each}
 {/if}
 

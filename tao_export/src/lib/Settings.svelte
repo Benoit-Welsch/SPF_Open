@@ -1,5 +1,6 @@
 <script lang="ts">
   export let hideAnswer = false;
+  export let showInstruction = false;
 </script>
 
 <fieldset class="hide-print">
@@ -21,4 +22,25 @@
     bind:group={hideAnswer}
   />
   <label for="hide-answer">Hide</label>
+</fieldset>
+
+<fieldset>
+  <legend>Instuction</legend>
+  <input
+    type="radio"
+    id="hide-instuction"
+    checked
+    value={true}
+    name="Instruction"
+    bind:group={showInstruction}
+  />
+  <label for="hide-instuction">Show</label>
+  <input
+    type="radio"
+    id="show-instuction"
+    value={false}
+    name="Instruction"
+    bind:group={showInstruction}
+  />
+  <label for="show-instuction">Hide</label>
 </fieldset>
