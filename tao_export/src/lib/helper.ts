@@ -74,10 +74,21 @@ export type QuestionType = {
 
 export const xmlToObj = (xml: zipObj): QuestionType => {
   const xDoc = xml.xml;
-  const title = xDoc
-    .getElementsByTagName("assessmentItem")[0]
-    .getAttribute("title");
+  const Instructie = xDoc.getElementsByTagName("assessmentTest").length > 0;
 
+  let title;
+
+  if (Instructie) {
+    title = xDoc
+      .getElementsByTagName("assessmentTest")[0]
+      .getAttribute("title");
+  } else {
+    title = xDoc
+      .getElementsByTagName("assessmentItem")[0]
+      .getAttribute("title");
+  }
+
+  // Hide "Voorbeeld"/"Exemple"
   if (
     !!["Voorbeeld", "Exemple"].find((t) =>
       title.toLowerCase().includes(t.toLowerCase())
@@ -90,14 +101,24 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   const QO =
     xDoc.getElementsByTagName("extendedTextInteraction").length > 0 ||
     xDoc.getElementsByTagName("textEntryInteraction").length > 0;
-  if (!QCM && !QO) return undefined;
+  if (!QCM && !QO && !Instructie) {
+    return {
+      title,
+      type: "QO",
+      prompt: Array.from(xDoc.getElementsByClassName("grid-row")),
+      answers: [],
+    };
+  }
 
   let answers;
   let prompt;
 
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
-  if (QO) {
+  if (Instructie) {
+    prompt = Array.from(xDoc.getElementsByTagName("assessmentTest"));
+    answers = [];
+  } else if (QO) {
     answers = [];
     prompt = [inner];
   } else {
