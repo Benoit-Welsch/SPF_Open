@@ -16,7 +16,7 @@
       {/each}
     </div>
 
-    {#if question.type !== "QO"}
+    {#if question.type === "QCM"}
       <ul class="answers">
         {#each question.answers as answer}
           <li

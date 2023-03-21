@@ -67,17 +67,28 @@ export const readAndParseXml = async (xml: zipObj, assets: zipObj[]) => {
 
 export type QuestionType = {
   title: string;
-  type: "QCM" | "QO" | "unknown";
+  type: "QCM" | "QO" | "Instruction" | "unknown";
   prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
 };
 
 export const xmlToObj = (xml: zipObj): QuestionType => {
   const xDoc = xml.xml;
-  const title = xDoc
-    .getElementsByTagName("assessmentItem")[0]
-    .getAttribute("title");
+  const Instructie = xDoc.getElementsByTagName("assessmentTest").length > 0;
 
+  let title;
+
+  if (Instructie) {
+    title = xDoc
+      .getElementsByTagName("assessmentTest")[0]
+      .getAttribute("title");
+  } else {
+    title = xDoc
+      .getElementsByTagName("assessmentItem")[0]
+      .getAttribute("title");
+  }
+
+  // Hide "Voorbeeld"/"Exemple"
   if (
     !!["Voorbeeld", "Exemple"].find((t) =>
       title.toLowerCase().includes(t.toLowerCase())
@@ -90,17 +101,31 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   const QO =
     xDoc.getElementsByTagName("extendedTextInteraction").length > 0 ||
     xDoc.getElementsByTagName("textEntryInteraction").length > 0;
-  if (!QCM && !QO) return undefined;
+  if (!QCM && !QO && !Instructie) {
+    return {
+      title,
+      type: "Instruction",
+      prompt: Array.from(xDoc.getElementsByClassName("grid-row")),
+      answers: [],
+    };
+  }
 
   let answers;
   let prompt;
+  let type;
 
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
-  if (QO) {
+  if (Instructie) {
+    prompt = Array.from(xDoc.getElementsByTagName("assessmentTest"));
+    answers = [];
+    type = "Instruction";
+  } else if (QO) {
     answers = [];
     prompt = [inner];
+    type = "QO";
   } else {
+    type = "QCM";
     prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
       (d) => d.getElementsByTagName("simpleChoice").length === 0
     );
@@ -138,7 +163,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
 
   return {
     title,
-    type: answers.length > 0 ? "QCM" : "QO",
+    type,
     prompt,
     answers,
   };

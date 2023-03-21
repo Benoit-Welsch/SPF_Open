@@ -4,6 +4,7 @@
     txt: string;
     id?: string;
     selected?: boolean;
+    disabled?: boolean;
   }
 
   export let title = "";
@@ -21,7 +22,7 @@
 
 <fieldset>
   <legend>{title}</legend>
-  {#each inputChoices as { id, txt, value }}
+  {#each inputChoices as { id, txt, value, disabled }}
     <div class="radio">
       <input
         type="radio"
@@ -29,8 +30,10 @@
         id={id ? id : txt}
         value={value ? value : id ? id : txt}
         bind:group={choice}
+        {disabled}
       />
-      <label for={id ? id : txt}>{txt}</label>
+      <label for={id ? id : txt} class={disabled ? "disabled" : ""}>{txt}</label
+      >
     </div>
   {/each}
 </fieldset>
@@ -48,8 +51,8 @@
     min-height: 34px;
   }
   legend {
-    color: #4d8997;
-    font-size: 12px;
+    color: #457e8b;
+    font-size: 13px;
   }
   .radio {
     display: inline-flex;
@@ -68,6 +71,10 @@
   }
   input:checked {
     border: 6px solid #43cc2d;
+  }
+  label.disabled {
+    color: #d9d9d9;
+    cursor: not-allowed;
   }
   label {
     font-size: 16px;
