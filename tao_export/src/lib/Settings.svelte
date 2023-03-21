@@ -25,7 +25,7 @@
 </fieldset>
 
 <fieldset>
-  <legend>Instuction</legend>
+  <legend>Instruction</legend>
   <input
     type="radio"
     id="hide-instuction"
