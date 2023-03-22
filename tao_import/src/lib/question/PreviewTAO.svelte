@@ -1,12 +1,17 @@
 <script lang="ts">
   import type { QCM } from "./questions";
+  import { TaoPreviewBind } from "../store";
 
   export let QCMs: QCM[] = [];
 </script>
 
-<div class="questions">
+<div class="questions" bind:this={$TaoPreviewBind}>
   {#each QCMs as QCM}
-    <div class="question">
+    <div
+      class="question"
+      style=" page-break-inside: avoid !important;
+    break-inside: avoid-page !important;"
+    >
       <div class="title">{QCM.id}</div>
       <div class="prompt">
         <br />
@@ -26,12 +31,6 @@
 </div>
 
 <style>
-  @media print {
-    div {
-      break-inside: avoid;
-    }
-  }
-
   .question {
     font-family: "Source Sans Pro";
     display: flex;
@@ -40,9 +39,10 @@
     margin: 30px 10px;
     margin-top: 0;
     min-width: 700px;
-    max-width: 1280px;
     line-height: 1.4;
     font-size: 14px;
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
   }
 
   .title {

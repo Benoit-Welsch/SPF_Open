@@ -7,34 +7,30 @@
   export let hideAnswer = false;
 </script>
 
-<div>
-  <div
-    class="question"
-    bind:this={questionDom}
-    style="page-break-inside: avoid !important; break-inside: avoid;"
-  >
-    <div class="title">{question.title}</div>
-    <div class="prompt">
-      {#each question.prompt as prompt}
-        {@html prompt.innerHTML}
-      {/each}
-    </div>
-
-    {#if question.type === "QCM" || question.type === "Instruction QCM"}
-      <ul class="answers">
-        {#each question.answers as answer}
-          <li
-            class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}
-          >
-            <div class="text">{@html answer.txt}</div>
-            {#if !hideAnswer}
-              <div class="points">{answer.point || 0}</div>
-            {/if}
-          </li>
-        {/each}
-      </ul>
-    {/if}
+<div
+  class="question"
+  bind:this={questionDom}
+  style="page-break-inside: avoid !important; break-inside: avoid;"
+>
+  <div class="title">{question.title}</div>
+  <div class="prompt">
+    {#each question.prompt as prompt}
+      {@html prompt.innerHTML}
+    {/each}
   </div>
+
+  {#if question.type === "QCM" || question.type === "Instruction QCM"}
+    <ul class="answers">
+      {#each question.answers as answer}
+        <li class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}>
+          <div class="text">{@html answer.txt}</div>
+          {#if !hideAnswer}
+            <div class="points">{answer.point || 0}</div>
+          {/if}
+        </li>
+      {/each}
+    </ul>
+  {/if}
 </div>
 
 <style>

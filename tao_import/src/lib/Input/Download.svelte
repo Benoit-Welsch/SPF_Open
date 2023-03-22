@@ -1,23 +1,31 @@
 <script lang="ts">
   import { get } from "svelte/store";
   import { exportToCSV, parseSheet } from "../question/questions";
-  import { currentSheet, selectedFormat, workbook } from "../store";
+  import {
+    currentSheet,
+    selectedFormat,
+    workbook,
+    name,
+  } from "../store";
 
   let linkFile;
 
   const onClick = () => {
-    console.log("download");
-    console.log(get(selectedFormat));
+    const fileName = get(name);
+    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)]);
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
-        const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)]);
         const CSVString = exportToCSV(sheet);
 
         const blob = new Blob([CSVString], { type: "text/csv;charset=utf-8," });
         const objUrl = URL.createObjectURL(blob);
+
         linkFile.href = objUrl;
-        linkFile.download = "tao-CSV";
+        linkFile.download = fileName;
         linkFile.click();
+        break;
+      case "pdf":
+        window.print();
         break;
       default:
         console.log("Not unsuported yet");

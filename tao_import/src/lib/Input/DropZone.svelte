@@ -1,6 +1,6 @@
 <script lang="ts">
   import DropZone from "svelte-atoms/DropZone.svelte";
-  import { file, workbook } from "../store";
+  import { file, name, workbook } from "../store";
   import * as XLSX from "xlsx";
 
   let fileName = "";
@@ -10,6 +10,7 @@
       : e.target.files[0];
     fileName = fileTemp ? fileTemp.name : "";
     file.update(() => fileTemp);
+    name.update(() => fileName.split(".").slice(0, -1).join());
 
     const data = await fileTemp.arrayBuffer();
     /* data is an ArrayBuffer */

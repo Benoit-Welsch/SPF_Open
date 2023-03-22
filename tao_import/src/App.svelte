@@ -33,8 +33,7 @@
   main {
     min-width: 1280px;
     min-height: 100vh;
-    max-width: 1500px;
-    margin: 50px auto;
+    margin: 50px 25px;
     display: flex;
     justify-items: center;
   }
@@ -51,8 +50,11 @@
     }
   }
   @media print {
-    div :global(.questions) {
-      margin-left: 0 !important;
+    .left {
+      display: none;
+    }
+    main :global(.questions) {
+      width: 80%;
     }
   }
 </style>

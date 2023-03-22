@@ -21,7 +21,7 @@
       title="Format"
       inputChoices={[
         { txt: "CSV", selected: true },
-        { txt: "PDF", disabled: true },
+        { txt: "PDF" },
         { txt: "WORD", disabled: true },
         { txt: "PPTX", disabled: true },
         { txt: "QTI", disabled: true },
