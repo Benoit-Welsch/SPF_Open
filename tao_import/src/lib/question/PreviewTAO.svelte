@@ -4,8 +4,6 @@
 
   export let QCMs: QCM[] = [];
   export let hideAnswer;
-
-  console.log(QCMs);
 </script>
 
 <div class="questions" bind:this={$TaoPreviewBind}>
