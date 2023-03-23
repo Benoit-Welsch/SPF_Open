@@ -12,17 +12,17 @@
       style=" page-break-inside: avoid !important;
     break-inside: avoid-page !important;"
     >
-      <div class="title">{QCM.id}</div>
+      <div class="title">{QCM.id.v}</div>
       <div class="prompt">
         <br />
-        {QCM.prompt}
+        {@html QCM.prompt.r}
         <br />
         <br />
       </div>
       <ul class="answers">
         {#each QCM.answers as answer}
           <li class={`answer ${answer.correct ? "correct" : ""}`}>
-            <div class="text">{answer.prompt}</div>
+            <div class="text">{@html answer.prompt.r}</div>
           </li>
         {/each}
       </ul>
