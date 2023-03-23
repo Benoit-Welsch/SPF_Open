@@ -22,7 +22,7 @@
       </div>
       <ul class="answers">
         {#each QCM.answers as answer}
-          <li class={`answer ${answer.correct ? "correct" : ""}`}>
+          <li class={`answer ${answer.correct && hideAnswer !== true ? "correct" : ""}`}>
             <div class="text">
               {@html answer.prompt.r ? answer.prompt.r : answer.prompt.w}
             </div>
