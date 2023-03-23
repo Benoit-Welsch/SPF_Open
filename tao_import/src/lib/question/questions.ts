@@ -73,7 +73,7 @@ export const exportToCSV = (questions: QCM[]) => {
     line.push("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
     lines.push(line.join(";"));
   });
-  return lines.join("\r\n");
+  return lines.map((l) => l.replace(/(\r\n|\n|\r)/gm, " ")).join("\r\n");
 };
 
 export const parseSheet = (sheet) => {
