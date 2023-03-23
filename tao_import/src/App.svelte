@@ -10,6 +10,7 @@
 
   file.subscribe(async (f) => {
     if (!f) return;
+    currentSheetHolder = [];
     workbook = XLSX.read(await f.arrayBuffer());
     sheetNames.set(workbook.SheetNames);
   });
