@@ -2,7 +2,12 @@
   import Download from "./Input/Download.svelte";
   import DropZone from "./Input/DropZone.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
-  import { currentSheet, sheetNames, selectedFormat } from "./store";
+  import {
+    currentSheet,
+    sheetNames,
+    selectedFormat,
+    hideAnswer,
+  } from "./store";
   let sheet;
 
   sheetNames.subscribe(
@@ -34,6 +39,14 @@
         { txt: "OFF", selected: true },
         { txt: "ON", disabled: true },
       ]}
+    />
+    <RadioInput
+      title="Answer"
+      inputChoices={[
+        { txt: "Hide", selected: true, value: true },
+        { txt: "Show", value: false },
+      ]}
+      bind:choice={$hideAnswer}
     />
   </div>
   <div class="bottom">

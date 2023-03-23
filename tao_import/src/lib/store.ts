@@ -13,3 +13,5 @@ export const currentSheet = writable("");
 export const selectedFormat = writable("");
 
 export const TaoPreviewBind = writable(null);
+
+export const hideAnswer = writable(true);
