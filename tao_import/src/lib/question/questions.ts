@@ -16,13 +16,21 @@ const headerSCV = [
   "correct_answer",
 ];
 
+export interface Txt {
+  h: string;
+  r: string;
+  t: string;
+  v: string;
+  w: string;
+}
+
 export interface Question {
-  id: string;
-  prompt: string;
+  id: Txt;
+  prompt: Txt;
 }
 
 export interface answer {
-  prompt: string;
+  prompt: Txt;
   correct: boolean;
 }
 
@@ -39,13 +47,13 @@ export const exportToCSV = (questions: QCM[]) => {
   lines.push(headerSCV.join(";"));
   questions.forEach((question) => {
     let line = [];
-    line.push(question.id);
-    line.push('"' + question.prompt + '"');
+    line.push('"' + question.id.v + '"');
+    line.push('"' + question.prompt.v + '"');
     line.push(1);
     line.push("fr-FR");
     line.push(0);
     line.push(1);
-    line.push(question.answers.map((answ) => answ.prompt).join(";"));
+    line.push(question.answers.map((answ) => answ.prompt.v).join(";"));
     line.push(
       question.answers.map((answ) => (answ.correct ? "3" : "-1")).join(";")
     );
@@ -62,12 +70,13 @@ export const parseSheet = (sheet) => {
 
   while (sheet["F" + row]) {
     if ((row - 7) % 5 == 0 || row == 7) {
-      currentQuestion = { id: sheet["D" + row].h, prompt: sheet["F" + row].h };
+      currentQuestion = { id: sheet["D" + row], prompt: sheet["F" + row] };
+      console.log(currentQuestion);
       currentQuestion.answers = [];
       questions.push(currentQuestion);
     } else {
       currentQuestion.answers.push({
-        prompt: sheet["F" + row].h,
+        prompt: sheet["F" + row],
         correct: sheet["G" + row] && sheet["G" + row].h,
       });
     }
