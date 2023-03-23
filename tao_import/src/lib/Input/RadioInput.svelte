@@ -1,6 +1,6 @@
 <script lang="ts">
   interface inputChoice {
-    value?: string;
+    value?: any;
     txt: string;
     id?: string;
     selected?: boolean;
@@ -9,7 +9,7 @@
 
   export let title = "";
   export let inputChoices: inputChoice[] = [];
-  export let choice: string = "";
+  export let choice: any = "";
 
   let findSelection = () => {
     if (inputChoices.length < 1) return;

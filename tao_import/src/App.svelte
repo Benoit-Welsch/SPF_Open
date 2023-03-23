@@ -3,7 +3,7 @@
   import Menu from "./lib/Menu.svelte";
   import PreviewTao from "./lib/question/PreviewTAO.svelte";
   import { parseSheet } from "./lib/question/questions";
-  import { currentSheet, file, sheetNames } from "./lib/store";
+  import { currentSheet, file, hideAnswer, sheetNames } from "./lib/store";
 
   let currentSheetHolder = [];
   let workbook;
@@ -26,7 +26,7 @@
   <div class="left">
     <Menu />
   </div>
-  <PreviewTao bind:QCMs={currentSheetHolder} />
+  <PreviewTao bind:QCMs={currentSheetHolder} bind:hideAnswer={$hideAnswer} />
 </main>
 
 <style>

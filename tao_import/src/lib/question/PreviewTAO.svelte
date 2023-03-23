@@ -3,6 +3,9 @@
   import { TaoPreviewBind } from "../store";
 
   export let QCMs: QCM[] = [];
+  export let hideAnswer;
+
+  console.log(QCMs);
 </script>
 
 <div class="questions" bind:this={$TaoPreviewBind}>
@@ -22,7 +25,12 @@
       <ul class="answers">
         {#each QCM.answers as answer}
           <li class={`answer ${answer.correct ? "correct" : ""}`}>
-            <div class="text">{@html answer.prompt.r}</div>
+            <div class="text">
+              {@html answer.prompt.r ? answer.prompt.r : answer.prompt.w}
+            </div>
+            {#if hideAnswer !== true}
+              <div class="points">{answer.correct ? 3 : -1}</div>
+            {/if}
           </li>
         {/each}
       </ul>

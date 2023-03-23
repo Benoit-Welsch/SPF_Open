@@ -71,7 +71,6 @@ export const parseSheet = (sheet) => {
   while (sheet["F" + row]) {
     if ((row - 7) % 5 == 0 || row == 7) {
       currentQuestion = { id: sheet["D" + row], prompt: sheet["F" + row] };
-      console.log(currentQuestion);
       currentQuestion.answers = [];
       questions.push(currentQuestion);
     } else {
