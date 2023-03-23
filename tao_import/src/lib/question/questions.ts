@@ -47,9 +47,13 @@ export const exportToCSV = (questions: QCM[]) => {
   lines.push(headerSCV.join(";"));
   questions.forEach((question) => {
     let line = [];
-    line.push('"' + (question.id.v ? question.id.v : question.id.w) + '"');
     line.push(
-      '"' + (question.prompt.v ? question.prompt.v : question.prompt.w) + '"'
+      '"' + (question.id.v ? question.id.v : question.id.w).trim() + '"'
+    );
+    line.push(
+      '"' +
+        (question.prompt.v ? question.prompt.v : question.prompt.w).trim() +
+        '"'
     );
     line.push(1);
     line.push("fr-FR");
@@ -60,6 +64,7 @@ export const exportToCSV = (questions: QCM[]) => {
         .map(
           (answ) => '"' + (answ.prompt.v ? answ.prompt.v : answ.prompt.w) + '"'
         )
+        .map((v) => (typeof v === "string" ? v.trim() : v))
         .join(";")
     );
     line.push(
