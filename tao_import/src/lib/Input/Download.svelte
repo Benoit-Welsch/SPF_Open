@@ -36,7 +36,7 @@
 <a bind:this={linkFile} />
 <button on:click|preventDefault={onClick}>
   <img src="file.svg" alt="FileIcon" />
-  <span> Dowload Export</span>
+  <span> Download Export</span>
 </button>
 
 <style>
