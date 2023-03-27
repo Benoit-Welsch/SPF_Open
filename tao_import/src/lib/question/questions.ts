@@ -48,7 +48,16 @@ export const exportToCSV = (questions: QCM[]) => {
   questions.forEach((question) => {
     let line = [];
     line.push(
-      '"' + (question.id.v ? question.id.v : question.id.w).trim() + '"'
+      '"' +
+        (question.id && question.id.v
+          ? question.id.v
+          : question.id
+          ? question.id
+          : ""
+        )
+          .toString()
+          .trim() +
+        '"'
     );
     line.push(
       '"' +
@@ -76,20 +85,26 @@ export const exportToCSV = (questions: QCM[]) => {
   return lines.map((l) => l.replace(/(\r\n|\n|\r)/gm, " ")).join("\r\n");
 };
 
-export const parseSheet = (sheet) => {
+export const parseSheet = (
+  sheet,
+  column: { title: string; prompt: string; correct: string }
+) => {
   let row = 7;
   let questions: QCM[] = [];
   let currentQuestion: QCM;
 
-  while (sheet["F" + row]) {
+  while (sheet[column.prompt + row]) {
     if ((row - 7) % 5 == 0 || row == 7) {
-      currentQuestion = { id: sheet["D" + row], prompt: sheet["F" + row] };
+      currentQuestion = {
+        id: sheet[column.title + row],
+        prompt: sheet[column.prompt + row],
+      };
       currentQuestion.answers = [];
       questions.push(currentQuestion);
     } else {
       currentQuestion.answers.push({
-        prompt: sheet["F" + row],
-        correct: sheet["G" + row] && sheet["G" + row].h,
+        prompt: sheet[column.prompt + row],
+        correct: sheet[column.correct + row] && sheet[column.correct + row].h,
       });
     }
     row++;

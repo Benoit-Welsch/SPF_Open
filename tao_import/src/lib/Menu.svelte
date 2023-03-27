@@ -1,18 +1,23 @@
 <script>
   import Download from "./Input/Download.svelte";
   import DropZone from "./Input/DropZone.svelte";
+  import LetterPicker from "./Input/LetterPicker.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
   import {
     currentSheet,
-    sheetNames,
     selectedFormat,
     hideAnswer,
+    titleColumn,
+    promptColumn,
+    correctColumn,
+    workbook,
   } from "./store";
   let sheet;
 
-  sheetNames.subscribe(
-    (s) => (sheet = s.map((s, n) => ({ txt: s, selected: n === 0 })))
-  );
+  workbook.subscribe((workbook) => {
+    if (!workbook || !workbook.SheetNames) return;
+    sheet = workbook.SheetNames.map((s, n) => ({ txt: s, selected: n === 0 }));
+  });
 </script>
 
 <div class="menu hide-print">
@@ -48,6 +53,9 @@
       ]}
       bind:choice={$hideAnswer}
     />
+    <LetterPicker title="Title" bind:value={$titleColumn} />
+    <LetterPicker title="Prompt" bind:value={$promptColumn} />
+    <LetterPicker title="Correct" bind:value={$correctColumn} />
   </div>
   <div class="bottom">
     <Download />
