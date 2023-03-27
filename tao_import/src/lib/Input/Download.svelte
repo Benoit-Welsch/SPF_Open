@@ -6,13 +6,20 @@
     selectedFormat,
     workbook,
     name,
+    titleColumn,
+    promptColumn,
+    correctColumn,
   } from "../store";
 
   let linkFile;
 
   const onClick = () => {
     const fileName = get(name);
-    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)]);
+    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)], {
+      title: get(titleColumn),
+      prompt: get(promptColumn),
+      correct: get(correctColumn),
+    });
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
         const CSVString = exportToCSV(sheet);
@@ -36,7 +43,7 @@
 <a bind:this={linkFile} />
 <button on:click|preventDefault={onClick}>
   <img src="file.svg" alt="FileIcon" />
-  <span> Dowload Export</span>
+  <span> Download Export</span>
 </button>
 
 <style>

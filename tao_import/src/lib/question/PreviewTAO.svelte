@@ -13,7 +13,7 @@
       style=" page-break-inside: avoid !important;
     break-inside: avoid-page !important;"
     >
-      <div class="title">{QCM.id.v}</div>
+      <div class="title">{QCM.id && QCM.id.v ? QCM.id.v : QCM.id}</div>
       <div class="prompt">
         <br />
         {@html QCM.prompt.r}
@@ -22,7 +22,11 @@
       </div>
       <ul class="answers">
         {#each QCM.answers as answer}
-          <li class={`answer ${answer.correct ? "correct" : ""}`}>
+          <li
+            class={`answer ${
+              answer.correct && hideAnswer !== true ? "correct" : ""
+            }`}
+          >
             <div class="text">
               {@html answer.prompt.r ? answer.prompt.r : answer.prompt.w}
             </div>
