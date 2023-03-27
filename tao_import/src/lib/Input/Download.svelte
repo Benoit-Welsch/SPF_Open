@@ -6,13 +6,20 @@
     selectedFormat,
     workbook,
     name,
+    titleColumn,
+    promptColumn,
+    correctColumn,
   } from "../store";
 
   let linkFile;
 
   const onClick = () => {
     const fileName = get(name);
-    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)]);
+    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)], {
+      title: get(titleColumn),
+      prompt: get(promptColumn),
+      correct: get(correctColumn),
+    });
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
         const CSVString = exportToCSV(sheet);

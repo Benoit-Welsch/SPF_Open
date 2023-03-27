@@ -1,25 +1,46 @@
 <script lang="ts">
+  import { get } from "svelte/store";
   import * as XLSX from "xlsx";
   import Menu from "./lib/Menu.svelte";
   import PreviewTao from "./lib/question/PreviewTAO.svelte";
   import { parseSheet } from "./lib/question/questions";
-  import { currentSheet, file, hideAnswer, sheetNames } from "./lib/store";
+  import {
+    column,
+    correctColumn,
+    currentSheet,
+    file,
+    hideAnswer,
+    promptColumn,
+    titleColumn,
+  } from "./lib/store";
 
   let currentSheetHolder = [];
   let workbook;
+
+  const parseAndShow = () => {
+    if (!workbook) return;
+    setTimeout(() => {
+      currentSheetHolder = parseSheet(workbook.Sheets[get(currentSheet)], {
+        title: get(titleColumn),
+        prompt: get(promptColumn),
+        correct: get(correctColumn),
+      });
+      console.log(currentSheetHolder)
+    }, 100);
+  };
 
   file.subscribe(async (f) => {
     if (!f) return;
     currentSheetHolder = [];
     workbook = XLSX.read(await f.arrayBuffer());
-    sheetNames.set(workbook.SheetNames);
   });
 
-  currentSheet.subscribe(async (name) => {
-    if (!name) return;
-    setTimeout(() => {
-      currentSheetHolder = parseSheet(workbook.Sheets[name]);
-    }, 100);
+  column.subscribe(async () => {
+    parseAndShow();
+  });
+
+  currentSheet.subscribe(async () => {
+    parseAndShow();
   });
 </script>
 
@@ -27,6 +48,7 @@
   <div class="left">
     <Menu />
   </div>
+  <!-- <PreviewSvg /> -->
   <PreviewTao bind:QCMs={currentSheetHolder} bind:hideAnswer={$hideAnswer} />
 </main>
 
