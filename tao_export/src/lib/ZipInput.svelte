@@ -60,8 +60,6 @@
   }
 
   const makePdfOnClick = () => {
-    console.log(heightInPx);
-    console.log(HtmlTAOPDF);
     html2pdf(HtmlTAOPDF, {
       filename: title + " - Export TAO",
       html2canvas: { dpi: 1200 },

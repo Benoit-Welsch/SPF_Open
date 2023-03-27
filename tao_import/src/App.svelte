@@ -25,7 +25,6 @@
         prompt: get(promptColumn),
         correct: get(correctColumn),
       });
-      console.log(currentSheetHolder)
     }, 100);
   };
 
@@ -55,16 +54,16 @@
 <style>
   main {
     min-width: 1280px;
-    min-height: 100vh;
-    margin: 50px 25px;
     display: flex;
     justify-items: center;
   }
   .left {
     width: 400px;
+    margin: 50px 50px;
   }
   main :global(.questions) {
     width: calc(100% - 400px);
+    margin: 50px 50px;
   }
 
   @media only screen and (max-width: 1280px) {

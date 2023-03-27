@@ -28,51 +28,26 @@
 <fieldset>
   <legend>{title}</legend>
   <div class="container">
-    <div class="input-selector">
-      <input
-        type="text"
-        name={`${title}-letter`}
-        id={`${title}-letter`}
-        bind:value
-        pattern="[A-Z]{1}"
-        on:focusout|preventDefault={() => validate()}
-      />
-      <div class="button-selector">
-        <button on:click={() => onPress(+1)}
-          ><img src="chevron.svg" alt="UP" /></button
-        >
-        <button on:click={() => onPress(-1)}
-          ><img src="chevron.svg" alt="DOWN" /></button
-        >
-      </div>
+    <input
+      type="text"
+      name={`${title}-letter`}
+      id={`${title}-letter`}
+      bind:value
+      pattern="[A-Z]{1}"
+      on:focusout|preventDefault={() => validate()}
+    />
+    <div class="button-selector">
+      <button on:click={() => onPress(+1)} class="reversed"
+        ><img src="chevron.svg" alt="UP" /></button
+      >
+      <button on:click={() => onPress(-1)}
+        ><img src="chevron.svg" alt="DOWN" /></button
+      >
     </div>
   </div>
 </fieldset>
 
 <style>
-  .input-selector {
-    display: flex;
-    flex-direction: row;
-  }
-  img {
-    width: 22px;
-  }
-  button:nth-child(1) {
-    margin-top: -2px;
-  }
-  button:nth-child(2) {
-    rotate: 180deg;
-    margin-bottom: -2px;
-  }
-  .button-selector {
-    display: flex;
-    flex-direction: column;
-  }
-  .container {
-    border: 1px solid black;
-    border-radius: 5px;
-    overflow: hidden;
-  }
   fieldset {
     display: flex;
     flex-direction: row;
@@ -85,7 +60,6 @@
     align-items: center;
     font-weight: bold;
     color: #00566b;
-    border-radius: 12px;
     min-height: 34px;
   }
   legend {
@@ -102,14 +76,40 @@
     font-weight: bold;
     font-size: 15px;
   }
-  button {
-    border: none;
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
-    cursor: pointer;
-    height: 15px;
-    width: 18px;
+  .container {
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1.5px solid black;
     display: flex;
+    flex-direction: row;
+    background-color: #00566b;
+  }
+  button {
+    border-radius: 0;
+    border: none;
+    padding: 3px 0 0 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #00566b;
+    color: white;
+    transition: 0.3s;
+  }
+  button:hover {
+    background-color: #457e8b;
+  }
+  button:active {
+    background-color: #00566b;
+  }
+
+  img {
+    width: 20px;
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(147deg)
+      brightness(100%) contrast(101%);
+    padding: 1px;
+    transition: 0.3s;
+  }
+  .reversed {
+    transform: rotate(180deg);
   }
 </style>
