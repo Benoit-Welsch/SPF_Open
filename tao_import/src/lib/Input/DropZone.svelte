@@ -18,8 +18,9 @@
   };
 </script>
 
-<div class="">
+<div>
   <DropZone
+    title={"Drag & drop or"}
     fileTitle={fileName}
     dropOnPage
     on:drop={onChange}

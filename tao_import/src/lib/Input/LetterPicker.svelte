@@ -56,6 +56,7 @@
     font-size: 13px;
   }
   .container {
+    width: fit-content;
     border-radius: 5px;
     overflow: hidden;
     border: 1.5px solid black;

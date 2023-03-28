@@ -55,9 +55,18 @@
     />
     <fieldset class="columnPicker">
       <legend>Column</legend>
-      <LetterPicker title="Title" bind:value={$titleColumn} />
-      <LetterPicker title="Prompt" bind:value={$promptColumn} />
-      <LetterPicker title="Correct" bind:value={$correctColumn} />
+      <div>
+        <label>Title</label>
+        <LetterPicker title="Title" bind:value={$titleColumn} />
+      </div>
+      <div>
+        <label>Prompt</label>
+        <LetterPicker title="Prompt" bind:value={$promptColumn} />
+      </div>
+      <div>
+        <label>Answer</label>
+        <LetterPicker title="Answer" bind:value={$correctColumn} />
+      </div>
     </fieldset>
   </div>
   <div class="bottom">
@@ -70,20 +79,26 @@
   .columnPicker {
     display: flex;
     flex-direction: row;
-    gap: 12px;
-    justify-items: center;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
     border-radius: 12px;
     overflow: hidden;
     border: 3px solid #00566b;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bold;
     color: #00566b;
     min-height: 34px;
   }
-  .columnPicker legend {
+  .columnPicker legend,
+  .columnPicker label {
     color: #457e8b;
     font-size: 13px;
+  }
+  .columnPicker > div {
+    gap: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .menu {
     z-index: 1;
