@@ -44,6 +44,7 @@
   fieldset {
     border: 3px solid #00566b;
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     justify-content: space-around;
     align-items: center;

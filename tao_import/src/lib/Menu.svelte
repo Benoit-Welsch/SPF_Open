@@ -87,7 +87,6 @@
     overflow: hidden;
     border: 3px solid #00566b;
     color: #00566b;
-    min-height: 34px;
   }
   .columnPicker legend,
   .columnPicker label {
@@ -109,7 +108,7 @@
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 85vh;
     width: fit-content;
   }
   .choiceSelection {
@@ -119,7 +118,6 @@
   }
   .choiceSelection :global(fieldset:first-child) {
     width: 100%;
-    height: 34px;
   }
   .menu .bottom {
     display: flex;
