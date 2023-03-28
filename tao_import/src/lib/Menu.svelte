@@ -53,9 +53,12 @@
       ]}
       bind:choice={$hideAnswer}
     />
-    <LetterPicker title="Title" bind:value={$titleColumn} />
-    <LetterPicker title="Prompt" bind:value={$promptColumn} />
-    <LetterPicker title="Correct" bind:value={$correctColumn} />
+    <fieldset class="columnPicker">
+      <legend>Column</legend>
+      <LetterPicker title="Title" bind:value={$titleColumn} />
+      <LetterPicker title="Prompt" bind:value={$promptColumn} />
+      <LetterPicker title="Correct" bind:value={$correctColumn} />
+    </fieldset>
   </div>
   <div class="bottom">
     <Download />
@@ -64,6 +67,24 @@
 </div>
 
 <style>
+  .columnPicker {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    justify-items: center;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #00566b;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: bold;
+    color: #00566b;
+    min-height: 34px;
+  }
+  .columnPicker legend {
+    color: #457e8b;
+    font-size: 13px;
+  }
   .menu {
     z-index: 1;
     background-color: white;

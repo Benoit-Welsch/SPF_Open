@@ -79,7 +79,7 @@
     cursor: not-allowed;
   }
   label {
-    font-size: 16px;
+    font-size: 13px;
     cursor: pointer;
     padding-left: 4px;
   }

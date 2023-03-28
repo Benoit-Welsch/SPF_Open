@@ -50,7 +50,7 @@
     margin-top: 0;
     min-width: 700px;
     line-height: 1.4;
-    font-size: 14px;
+    font-size: 13px;
     page-break-inside: avoid !important;
     break-inside: avoid-page !important;
   }
@@ -59,7 +59,7 @@
     padding: 1px 0px 3px 5px;
     background-color: #007f9f;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     height: fit-content;
   }

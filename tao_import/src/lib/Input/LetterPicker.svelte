@@ -25,47 +25,26 @@
   };
 </script>
 
-<fieldset>
-  <legend>{title}</legend>
-  <div class="container">
-    <input
-      type="text"
-      name={`${title}-letter`}
-      id={`${title}-letter`}
-      bind:value
-      pattern="[A-Z]{1}"
-      on:focusout|preventDefault={() => validate()}
-    />
-    <div class="button-selector">
-      <button on:click={() => onPress(+1)} class="reversed"
-        ><img src="chevron.svg" alt="UP" /></button
-      >
-      <button on:click={() => onPress(-1)}
-        ><img src="chevron.svg" alt="DOWN" /></button
-      >
-    </div>
+<div class="container">
+  <input
+    type="text"
+    name={`${title}-letter`}
+    id={`${title}-letter`}
+    bind:value
+    pattern="[A-Z]{1}"
+    on:focusout|preventDefault={() => validate()}
+  />
+  <div class="button-selector">
+    <button on:click={() => onPress(+1)} class="reversed"
+      ><img src="chevron.svg" alt="UP" /></button
+    >
+    <button on:click={() => onPress(-1)}
+      ><img src="chevron.svg" alt="DOWN" /></button
+    >
   </div>
-</fieldset>
+</div>
 
 <style>
-  fieldset {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    justify-items: center;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 3px solid #00566b;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bold;
-    color: #00566b;
-    min-height: 34px;
-  }
-  legend {
-    color: #457e8b;
-    font-size: 13px;
-  }
   input {
     width: 20px;
     border: none;
@@ -74,7 +53,7 @@
     margin: 0;
     padding: 0;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
   }
   .container {
     border-radius: 5px;

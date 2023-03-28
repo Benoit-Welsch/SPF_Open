@@ -48,14 +48,14 @@
     margin: 30px 10px;
     max-width: 1000px;
     line-height: 1.4;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .title {
     padding: 1px 0px 3px 5px;
     background-color: #007f9f;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     height: fit-content;
   }
