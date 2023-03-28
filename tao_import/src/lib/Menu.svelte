@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Download from "./Input/Download.svelte";
   import DropZone from "./Input/DropZone.svelte";
   import LetterPicker from "./Input/LetterPicker.svelte";
@@ -12,11 +12,14 @@
     correctColumn,
     workbook,
   } from "./store";
-  let sheet;
+  let sheet: { txt: string; selected: boolean }[];
 
   workbook.subscribe((workbook) => {
     if (!workbook || !workbook.SheetNames) return;
-    sheet = workbook.SheetNames.map((s, n) => ({ txt: s, selected: n === 0 }));
+    sheet = workbook.SheetNames.map((s: string, n: number) => ({
+      txt: s,
+      selected: n === 0,
+    }));
   });
 </script>
 
@@ -56,15 +59,15 @@
     <fieldset class="columnPicker">
       <legend>Column</legend>
       <div>
-        <label>Title</label>
+        <label for="Title-letter">Title</label>
         <LetterPicker title="Title" bind:value={$titleColumn} />
       </div>
       <div>
-        <label>Prompt</label>
+        <label for="Prompt-letter">Prompt</label>
         <LetterPicker title="Prompt" bind:value={$promptColumn} />
       </div>
       <div>
-        <label>Answer</label>
+        <label for="Answer-letter">Answer</label>
         <LetterPicker title="Answer" bind:value={$correctColumn} />
       </div>
     </fieldset>

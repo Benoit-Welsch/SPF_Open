@@ -1,9 +1,10 @@
 <script lang="ts">
   export let title: string;
   export let value: string = "A";
+  export let id = title + "-letter";
   let index = 0;
 
-  const alpha = Array.from(Array(26)).map((e, i) => i + 65);
+  const alpha = Array.from(Array(26)).map((_, i) => i + 65);
   const alphabet = alpha.map((x) => String.fromCharCode(x));
 
   const validate = () => {
@@ -29,7 +30,7 @@
   <input
     type="text"
     name={`${title}-letter`}
-    id={`${title}-letter`}
+    {id}
     bind:value
     pattern="[A-Z]{1}"
     on:focusout|preventDefault={() => validate()}

@@ -11,7 +11,7 @@
     correctColumn,
   } from "../store";
 
-  let linkFile;
+  let linkFile: HTMLAnchorElement;
 
   const onClick = () => {
     const fileName = get(name);
@@ -40,6 +40,8 @@
   };
 </script>
 
+<!-- svelte-ignore a11y-missing-attribute -->
+<!-- svelte-ignore a11y-missing-content -->
 <a bind:this={linkFile} />
 <button on:click|preventDefault={onClick}>
   <img src="file.svg" alt="FileIcon" />

@@ -3,7 +3,7 @@
   import { TaoPreviewBind } from "../store";
 
   export let QCMs: QCM[] = [];
-  export let hideAnswer;
+  export let hideAnswer: boolean;
 </script>
 
 <div class="questions" bind:this={$TaoPreviewBind}>
