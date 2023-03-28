@@ -51,7 +51,7 @@
     font-weight: bold;
     color: #00566b;
     border-radius: 12px;
-    min-height: 34px;
+    min-height: 29px;
   }
   legend {
     color: #457e8b;
