@@ -42,38 +42,41 @@ export interface QO extends Question {
   answerLenght: number;
 }
 
+export const langPrefix = (lang) => {
+  let zone = "";
+  let titlePrefix = "";
+  switch (lang) {
+    case "FR":
+      zone = "fr-FR";
+      titlePrefix = "QCM ";
+      break;
+    case "NL":
+      zone = "nl-NL";
+      titlePrefix = "MKV ";
+      break;
+    case "DE":
+      zone = "de-DE";
+      titlePrefix = "MCF ";
+      break;
+  }
+  return { zone, titlePrefix };
+};
+
 export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
-  const langString =
-    lang === "FR"
-      ? "fr-FR"
-      : lang === "NL"
-      ? "nl-NL"
-      : lang === "DE"
-      ? "de-DE"
-      : "";
+  const prefix = langPrefix(lang);
+
   let lines = [];
   lines.push(headerSCV.join(";"));
-  questions.forEach((question) => {
+  questions.forEach((question, n) => {
     let line = [];
-    line.push(
-      '"' +
-        (question.id && question.id.v
-          ? question.id.v
-          : question.id
-          ? question.id
-          : ""
-        )
-          .toString()
-          .trim() +
-        '"'
-    );
+    line.push('"' + (prefix.titlePrefix + n).toString().trim() + '"');
     line.push(
       '"' +
         (question.prompt.v ? question.prompt.v : question.prompt.w).trim() +
         '"'
     );
     line.push(1);
-    line.push(langString);
+    line.push(prefix.zone);
     line.push(0);
     line.push(1);
     line.push(
