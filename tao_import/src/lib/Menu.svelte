@@ -82,14 +82,12 @@
   .columnPicker {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+    gap: 8px;
     font-weight: bold;
     border-radius: 12px;
-    overflow: hidden;
     border: 3px solid #00566b;
     color: #00566b;
+    padding-top: 0;
   }
   .columnPicker legend,
   .columnPicker label {

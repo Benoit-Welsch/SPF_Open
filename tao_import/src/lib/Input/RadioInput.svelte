@@ -45,7 +45,7 @@
     border: 3px solid #00566b;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
     justify-content: space-around;
     align-items: center;
     font-weight: bold;
@@ -64,8 +64,8 @@
   input {
     margin-top: 0;
     margin-right: 0px;
-    height: 12px;
-    width: 12px;
+    height: 10px;
+    width: 10px;
     cursor: pointer;
     appearance: none;
     border-radius: 50%;

@@ -47,7 +47,7 @@
 
 <style>
   input {
-    width: 20px;
+    width: 17px;
     border: none;
     border-right: 1px solid black;
     text-align: center;
@@ -57,7 +57,6 @@
     font-size: 13px;
   }
   .container {
-    width: fit-content;
     border-radius: 5px;
     overflow: hidden;
     border: 1.5px solid black;
@@ -84,7 +83,8 @@
   }
 
   img {
-    width: 20px;
+    height: 10px;
+    width: 16px;
     filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(147deg)
       brightness(100%) contrast(101%);
     padding: 1px;
