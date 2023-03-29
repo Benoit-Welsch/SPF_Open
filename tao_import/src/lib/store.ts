@@ -9,6 +9,7 @@ export const workbook = writable(null);
 export const currentSheet = writable("");
 export const selectedFormat = writable("");
 export const hideAnswer = writable(true);
+export const langOutput = writable("FR");
 
 // Column
 export const titleColumn = writable("D");

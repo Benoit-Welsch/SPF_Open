@@ -11,6 +11,7 @@
     promptColumn,
     correctColumn,
     workbook,
+    langOutput,
   } from "./store";
   let sheet: { txt: string; selected: boolean }[];
 
@@ -42,11 +43,13 @@
       bind:choice={$selectedFormat}
     />
     <RadioInput
-      title="Compare"
+      title="Langage"
       inputChoices={[
-        { txt: "OFF", selected: true },
-        { txt: "ON", disabled: true },
+        { txt: "FR" },
+        { txt: "NL" },
+        { txt: "DE", disabled: true },
       ]}
+      bind:choice={$langOutput}
     />
     <RadioInput
       title="Answer"
@@ -56,22 +59,31 @@
       ]}
       bind:choice={$hideAnswer}
     />
-    <fieldset class="columnPicker">
-      <legend>Column</legend>
-      <div>
-        <label for="Title-letter">Title</label>
-        <LetterPicker title="Title" bind:value={$titleColumn} />
-      </div>
-      <div>
-        <label for="Prompt-letter">Prompt</label>
-        <LetterPicker title="Prompt" bind:value={$promptColumn} />
-      </div>
-      <div>
-        <label for="Answer-letter">Answer</label>
-        <LetterPicker title="Answer" bind:value={$correctColumn} />
-      </div>
-    </fieldset>
+    <RadioInput
+      title="Compare"
+      inputChoices={[
+        { txt: "OFF", selected: true },
+        { txt: "ON", disabled: true },
+      ]}
+    />
   </div>
+
+  <fieldset class="columnPicker">
+    <legend>Column</legend>
+    <div>
+      <label for="Title-letter">Title</label>
+      <LetterPicker title="Title" bind:value={$titleColumn} />
+    </div>
+    <div>
+      <label for="Prompt-letter">Prompt</label>
+      <LetterPicker title="Prompt" bind:value={$promptColumn} />
+    </div>
+    <div>
+      <label for="Answer-letter">Answer</label>
+      <LetterPicker title="Answer" bind:value={$correctColumn} />
+    </div>
+  </fieldset>
+
   <div class="bottom">
     <Download />
     <DropZone />
@@ -83,6 +95,7 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
+    width: fit-content;
     font-weight: bold;
     border-radius: 12px;
     border: 3px solid #00566b;

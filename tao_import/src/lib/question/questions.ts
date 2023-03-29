@@ -42,7 +42,15 @@ export interface QO extends Question {
   answerLenght: number;
 }
 
-export const exportToCSV = (questions: QCM[]) => {
+export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
+  const langString =
+    lang === "FR"
+      ? "fr-FR"
+      : lang === "NL"
+      ? "nl-NL"
+      : lang === "DE"
+      ? "de-DE"
+      : "";
   let lines = [];
   lines.push(headerSCV.join(";"));
   questions.forEach((question) => {
@@ -65,7 +73,7 @@ export const exportToCSV = (questions: QCM[]) => {
         '"'
     );
     line.push(1);
-    line.push("fr-FR");
+    line.push(langString);
     line.push(0);
     line.push(1);
     line.push(
@@ -110,4 +118,8 @@ export const parseSheet = (
     row++;
   }
   return questions;
+};
+
+const detectLangage = () => {
+  // TODO :
 };

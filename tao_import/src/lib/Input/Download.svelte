@@ -9,6 +9,7 @@
     titleColumn,
     promptColumn,
     correctColumn,
+    langOutput,
   } from "../store";
 
   let linkFile: HTMLAnchorElement;
@@ -22,7 +23,7 @@
     });
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
-        const CSVString = exportToCSV(sheet);
+        const CSVString = exportToCSV(sheet, { lang: get(langOutput) });
 
         const blob = new Blob([CSVString], { type: "text/csv;charset=utf-8," });
         const objUrl = URL.createObjectURL(blob);

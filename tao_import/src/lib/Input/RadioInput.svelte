@@ -14,12 +14,17 @@
   let findSelection = () => {
     if (inputChoices.length < 1) return;
     let select = inputChoices.find((input) => input.selected);
+    inputChoices = inputChoices.map((i) => ({
+      id: Math.round(Math.random() * 100) + i.txt,
+      ...i,
+    }));
+    console.log(inputChoices);
     if (!select) select = inputChoices[0];
     const { id, txt, value } = select;
-    choice = value ? value : id ? id : txt;
+    choice = value ? value : txt ? txt : id;
   };
 
-  $: !choice && findSelection();
+  findSelection();
 </script>
 
 <fieldset>
@@ -28,9 +33,9 @@
     <div class={`radio ${disabled ? "disabled" : ""}`}>
       <input
         type="radio"
-        name=""
+        name={id}
         id={id ? id : txt}
-        value={value ? value : id ? id : txt}
+        value={value ? value : txt ? txt : id}
         bind:group={choice}
         {disabled}
       />
