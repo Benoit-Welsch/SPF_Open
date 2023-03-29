@@ -25,7 +25,7 @@
 <fieldset>
   <legend>{title}</legend>
   {#each inputChoices as { id, txt, value, disabled }}
-    <div class="radio">
+    <div class={`radio ${disabled ? "disabled" : ""}`}>
       <input
         type="radio"
         name=""
@@ -34,8 +34,7 @@
         bind:group={choice}
         {disabled}
       />
-      <label for={id ? id : txt} class={disabled ? "disabled" : ""}>{txt}</label
-      >
+      <label for={id ? id : txt}>{txt}</label>
     </div>
   {/each}
 </fieldset>
@@ -75,7 +74,7 @@
   input:checked {
     border: 6px solid #43cc2d;
   }
-  label.disabled {
+  .disabled > * {
     color: #d9d9d9;
     cursor: not-allowed;
   }
