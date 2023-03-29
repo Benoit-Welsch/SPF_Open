@@ -47,7 +47,7 @@
       inputChoices={[
         { txt: "FR" },
         { txt: "NL" },
-        { txt: "DE", disabled: true },
+        { txt: "DE" },
       ]}
       bind:choice={$langOutput}
     />
