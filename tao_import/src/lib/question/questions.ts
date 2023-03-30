@@ -129,7 +129,18 @@ export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
   const { zone, titlePrefix } = langPrefix(lang);
   let questionsManifest = [];
   const manifest = create({ version: "1.0" })
-    .ele("manifest")
+    .ele("manifest", {
+      identifier: "QTI-TEST-MANIFEST-tao" + Math.floor(Math.random() * 1000000),
+      xmlns: "http://www.imsglobal.org/xsd/imscp_v1p1",
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "xsi:schemaLocation": [
+        "http://www.imsglobal.org/xsd/imscp_v1p1",
+        "http://www.imsglobal.org/xsd/qti/qtiv2p2/qtiv2p2_imscpv1p2_v1p0.xsd",
+        "http://ltsc.ieee.org/xsd/LOM",
+        "http://www.imsglobal.org/xsd/imsmd_loose_v1p3p2.xsd",
+      ].join(" "),
+      "xmlns:imsmd": "http://ltsc.ieee.org/xsd/LOM",
+    })
     .ele("metadata")
     .ele("schema")
     .txt("QTIv2.2 Package")
@@ -138,6 +149,8 @@ export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
     .txt("1.0.0")
     .up()
     .up()
+    .ele("organizations")
+    .up()
     .ele("resources");
 
   questions.forEach((q, n) => {
@@ -145,15 +158,13 @@ export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
     const href = `items/${n}/qti.xml`;
     manifest
       .ele("resource", {
-        identifier: n + "",
+        identifier: n + "idk",
         type: "imsqti_item_xmlv2p2",
         href,
       })
-      .ele("metadata");
-    manifest
-
+      .ele("metadata")
       .ele("imsmd:lom")
-      .ele("imsmd:clasification")
+      .ele("imsmd:classification")
       .ele("imsmd:taxonPath")
       .ele("imsmd:taxon")
       .ele("imsmd:entry")
