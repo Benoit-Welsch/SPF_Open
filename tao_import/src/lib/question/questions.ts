@@ -149,22 +149,18 @@ export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
         type: "imsqti_item_xmlv2p2",
         href,
       })
-      .ele("metadata")
+      .ele("metadata");
+    manifest
+
       .ele("imsmd:lom")
       .ele("imsmd:clasification")
       .ele("imsmd:taxonPath")
       .ele("imsmd:taxon")
       .ele("imsmd:entry")
       .ele("imsmd:string", { "xml:lang": zone })
-      .txt(titlePrefix + n)
-      .up()
-      .up()
-      .up()
-      .up()
-      .up()
-      .up()
-      .up()
-      .ele("file", { href });
+      .txt(titlePrefix + n);
+
+    manifest.ele("file", { href });
 
     // Question file creation
     let questionQti = create({ version: "1.0" })
