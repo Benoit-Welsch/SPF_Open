@@ -1,3 +1,5 @@
+import { create } from 'xmlbuilder2';
+
 const headerSCV = [
   "name",
   "question",
@@ -121,6 +123,36 @@ export const parseSheet = (
     row++;
   }
   return questions;
+};
+
+export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
+  const {zone, titlePrefix} = langPrefix(lang)
+  const root = create({ version: '1.0' })
+  .ele('manifest', )
+    .ele('metadata')
+      .ele('schema').txt('QTIv2.2 Package').up()
+      .ele('schemaversion').txt('1.0.0').up()
+    .up()
+    .ele('resources')
+
+  questions.forEach((q,n) => {
+    // Manifest creation
+    const href = `items/${n}/qti.xml`
+    root
+      .ele('resource', {identifier: n + "", type: "imsqti_item_xmlv2p2", href})
+        .ele("metadata")
+          .ele('imsmd:lom')
+          .ele('imsmd:clasification')
+          .ele('imsmd:taxonPath')
+          .ele('imsmd:taxon')
+          .ele('imsmd:entry')
+          .ele('imsmd:string', {"xml:lang": zone}).txt(titlePrefix + n)
+          .up().up().up().up().up().up().up()
+          .ele("file", {href})
+
+    // Question file creation
+  })
+  return root.up()
 };
 
 const detectLangage = () => {
