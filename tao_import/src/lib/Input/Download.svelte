@@ -1,6 +1,7 @@
 <script lang="ts">
   import { get } from "svelte/store";
-  import { exportToCSV, parseSheet } from "../question/questions";
+  import { BlobReader, ZipWriter, BlobWriter } from "@zip.js/zip.js";
+  import { exportToCSV, exportToQTI, parseSheet } from "../question/questions";
   import {
     currentSheet,
     selectedFormat,
@@ -16,14 +17,14 @@
 
   const onClick = () => {
     const fileName = get(name);
-    const sheet = parseSheet(get(workbook).Sheets[get(currentSheet)], {
+    const QCMs = parseSheet(get(workbook).Sheets[get(currentSheet)], {
       title: get(titleColumn),
       prompt: get(promptColumn),
       correct: get(correctColumn),
     });
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
-        const CSVString = exportToCSV(sheet, { lang: get(langOutput) });
+        const CSVString = exportToCSV(QCMs, { lang: get(langOutput) });
 
         const blob = new Blob([CSVString], { type: "text/csv;charset=utf-8," });
         const objUrl = URL.createObjectURL(blob);
@@ -35,6 +36,43 @@
       case "pdf":
         window.print();
         break;
+      case "qti":
+        const { manifest, questionsManifest } = exportToQTI(QCMs, {
+          lang: get(langOutput),
+        });
+
+        const manifestBlob = new Blob([manifest.toString()], {
+          type: "text/xml",
+        });
+        const questionsManifestBlob = questionsManifest.map(
+          (q) => new Blob([q.toString()], { type: "text/xml" })
+        );
+
+        new Promise(async (resolve, reject) => {
+          const zipFileStream = new TransformStream();
+          const zipFileBlobPromise = new Response(
+            zipFileStream.readable
+          ).blob();
+
+          const zipWriter = new ZipWriter(new BlobWriter("application/zip"));
+
+          // Create manifest xml file
+          await zipWriter.add("imsmanifest.xml", new BlobReader(manifestBlob));
+
+          await Promise.all(
+            questionsManifestBlob.map((b, n) =>
+              zipWriter.add(`items/${n}/qti.xml`, new BlobReader(b))
+            )
+          );
+
+          const finalBlob = await zipWriter.close();
+
+          linkFile.setAttribute("href", URL.createObjectURL(finalBlob));
+          linkFile.download = fileName + ".zip";
+          linkFile.click();
+        });
+
+        break;
       default:
         console.log("Not unsuported yet");
     }
@@ -43,7 +81,7 @@
 
 <!-- svelte-ignore a11y-missing-attribute -->
 <!-- svelte-ignore a11y-missing-content -->
-<a bind:this={linkFile} />
+<a bind:this={linkFile} download />
 <button on:click|preventDefault={onClick}>
   <img src="file.svg" alt="FileIcon" />
   <span> Download Export</span>

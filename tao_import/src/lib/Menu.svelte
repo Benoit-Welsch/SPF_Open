@@ -38,7 +38,7 @@
         { txt: "PDF" },
         { txt: "WORD", disabled: true },
         { txt: "PPTX", disabled: true },
-        { txt: "QTI", disabled: true },
+        { txt: "QTI" },
       ]}
       bind:choice={$selectedFormat}
     />

@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@sveltejs/vite-plugin-svelte': ^2.0.3
   '@tsconfig/svelte': ^3.0.0
+  '@zip.js/zip.js': ^2.6.83
   svelte: ^3.57.0
   svelte-atoms: ^0.0.27
   svelte-check: ^2.10.3
@@ -13,6 +14,7 @@ specifiers:
   xmlbuilder2: ^3.0.2
 
 dependencies:
+  '@zip.js/zip.js': 2.6.83
   xlsx: 0.18.5
   xmlbuilder2: 3.0.2
 
@@ -329,6 +331,11 @@ packages:
     dependencies:
       sass: 1.59.3
     dev: true
+
+  /@zip.js/zip.js/2.6.83:
+    resolution: {integrity: sha512-+DNoawyQwwqMY1HjQ3/YO5zWqEKbG1onJZDlhKGuH39Q4KmGvLYzX4UqtQX7u0rUDKaVGdDpcN3/H+rc3Spg4g==}
+    engines: {deno: '>=1.0.0', node: '>=16.5.0'}
+    dev: false
 
   /adler-32/1.3.1:
     resolution: {integrity: sha512-ynZ4w/nUUv5rrsR8UUGoe1VC9hZj6V5hU9Qw1HlMDJGEJw5S7TfTErWTjMys6M7vr0YWcPqs3qAr4ss0nDfP+A==}

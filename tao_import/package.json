@@ -20,6 +20,7 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
+    "@zip.js/zip.js": "^2.6.83",
     "xlsx": "^0.18.5",
     "xmlbuilder2": "^3.0.2"
   }
