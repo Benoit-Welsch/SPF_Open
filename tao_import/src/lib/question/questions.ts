@@ -1,4 +1,4 @@
-import { create } from 'xmlbuilder2';
+import { create } from "xmlbuilder2";
 
 const headerSCV = [
   "name",
@@ -126,33 +126,124 @@ export const parseSheet = (
 };
 
 export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
-  const {zone, titlePrefix} = langPrefix(lang)
-  const root = create({ version: '1.0' })
-  .ele('manifest', )
-    .ele('metadata')
-      .ele('schema').txt('QTIv2.2 Package').up()
-      .ele('schemaversion').txt('1.0.0').up()
+  const { zone, titlePrefix } = langPrefix(lang);
+  let questionsManifest = [];
+  const manifest = create({ version: "1.0" })
+    .ele("manifest")
+    .ele("metadata")
+    .ele("schema")
+    .txt("QTIv2.2 Package")
     .up()
-    .ele('resources')
+    .ele("schemaversion")
+    .txt("1.0.0")
+    .up()
+    .up()
+    .ele("resources");
 
-  questions.forEach((q,n) => {
+  questions.forEach((q, n) => {
     // Manifest creation
-    const href = `items/${n}/qti.xml`
-    root
-      .ele('resource', {identifier: n + "", type: "imsqti_item_xmlv2p2", href})
-        .ele("metadata")
-          .ele('imsmd:lom')
-          .ele('imsmd:clasification')
-          .ele('imsmd:taxonPath')
-          .ele('imsmd:taxon')
-          .ele('imsmd:entry')
-          .ele('imsmd:string', {"xml:lang": zone}).txt(titlePrefix + n)
-          .up().up().up().up().up().up().up()
-          .ele("file", {href})
+    const href = `items/${n}/qti.xml`;
+    manifest
+      .ele("resource", {
+        identifier: n + "",
+        type: "imsqti_item_xmlv2p2",
+        href,
+      })
+      .ele("metadata")
+      .ele("imsmd:lom")
+      .ele("imsmd:clasification")
+      .ele("imsmd:taxonPath")
+      .ele("imsmd:taxon")
+      .ele("imsmd:entry")
+      .ele("imsmd:string", { "xml:lang": zone })
+      .txt(titlePrefix + n)
+      .up()
+      .up()
+      .up()
+      .up()
+      .up()
+      .up()
+      .up()
+      .ele("file", { href });
 
     // Question file creation
-  })
-  return root.up()
+    let questionQti = create({ version: "1.0" })
+      .ele("assessmentItem", {
+        title: titlePrefix + n,
+        identifier: n + "",
+        labal: titlePrefix + n,
+        "xml:lan": zone,
+      })
+      .ele("responseDeclaration", {
+        identifier: "RESPONSE",
+        cardinality: "single",
+        baseType: " identifier",
+      })
+      .ele("correctResponse")
+      .ele("value")
+      .txt(`<![CDATA[choice_${q.answers.findIndex((a) => a.correct) + 1}]]>`)
+      .up()
+      .up()
+      .ele("mapping", { defaultValue: "0" });
+    q.answers.forEach((a, n) => {
+      questionQti.ele("mapEntry", {
+        mapKey: `choice_${n + 1}`,
+        mappedValue: a.correct ? "3" : "-1",
+      });
+    });
+    questionQti = questionQti
+      .up()
+      .up()
+      .ele("outcomeDeclaration", {
+        identifier: "SCORE",
+        cardinality: "single",
+        baseType: "float",
+        normalMaximum: "3",
+      })
+      .up()
+      .ele("outcomeDeclaration", {
+        identifier: "MAXSCORE",
+        cardinality: "single",
+        baseType: "float",
+      })
+      .up()
+      .ele("defaultValue")
+      .ele("value")
+      .txt("3")
+      .up()
+      .up()
+      .ele("itemBody")
+      .ele("div", { class: "grid-row" })
+      .ele("div", { class: "col-12" })
+      .ele("choiceInteraction", {
+        reposonseIdentifier: "RESPONSE",
+        shuffle: "true",
+        maxChoices: "1",
+        minChoices: "0",
+        orientation: "vertical",
+      })
+      .ele("prompt")
+      .ele("div")
+      .up()
+      .ele("strong")
+      .txt(q.prompt.r)
+      .up()
+      .ele("div")
+      .up()
+      .up();
+
+    q.answers.forEach((a, n) => {
+      questionQti
+        .ele("simpleChoice", {
+          identifier: `choice_${n + 1}`,
+          fixed: "false",
+          showHide: "show",
+        })
+        .txt(a.prompt.r);
+    });
+    questionsManifest.push(questionQti.root());
+  });
+  return { manifest: manifest.root(), questionsManifest };
 };
 
 const detectLangage = () => {
