@@ -9,7 +9,7 @@
     const fileTemp = e.dataTransfer
       ? e.dataTransfer.files[0]
       : e.target.files[0];
-    fileName = fileTemp ? fileTemp.name.lenght > maxLenghtName ? fileTemp.name.slice(0, maxLenghtName - 3) + "..." : fileTemp.name : "";
+    fileName = fileTemp ? fileTemp.name.length > maxLenghtName ? fileTemp.name.slice(0, maxLenghtName - 3) + "..." : fileTemp.name : "";
     file.update(() => fileTemp);
     name.update(() => fileName.split(".").slice(0, -1).join());
 
