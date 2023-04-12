@@ -5,12 +5,13 @@
   import PreviewTao from "./lib/question/PreviewTAO.svelte";
   import { parseSheet } from "./lib/question/questions";
   import {
-    column,
+    column_row,
     correctColumn,
     currentSheet,
     file,
     hideAnswer,
     promptColumn,
+    rowOffset,
     titleColumn,
   } from "./lib/store";
 
@@ -20,11 +21,15 @@
   const parseAndShow = () => {
     if (!workbook) return;
     setTimeout(() => {
-      currentSheetHolder = parseSheet(workbook.Sheets[get(currentSheet)], {
-        title: get(titleColumn),
-        prompt: get(promptColumn),
-        correct: get(correctColumn),
-      });
+      currentSheetHolder = parseSheet(
+        workbook.Sheets[get(currentSheet)],
+        {
+          title: get(titleColumn),
+          prompt: get(promptColumn),
+          correct: get(correctColumn),
+        },
+        { offset: get(rowOffset) }
+      );
     }, 100);
   };
 
@@ -34,7 +39,7 @@
     workbook = XLSX.read(await f.arrayBuffer());
   });
 
-  column.subscribe(async () => {
+  column_row.subscribe(async () => {
     parseAndShow();
   });
 
