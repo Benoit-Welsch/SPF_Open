@@ -95,27 +95,30 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
 
 export const parseSheet = (
   sheet,
-  column: { title: string; prompt: string; correct: string }
+  column: { title: string; prompt: string; correct: string },
+  row: { offset: number }
 ) => {
-  let row = 7;
+  let currentRow = row.offset;
   let questions: QCM[] = [];
   let currentQuestion: QCM;
 
-  while (sheet[column.prompt + row]) {
-    if ((row - 7) % 5 == 0 || row == 7) {
+  while (sheet[column.prompt + currentRow]) {
+    if ((currentRow - row.offset) % 5 == 0 || currentRow == row.offset) {
       currentQuestion = {
-        id: sheet[column.title + row],
-        prompt: sheet[column.prompt + row],
+        id: sheet[column.title + currentRow],
+        prompt: sheet[column.prompt + currentRow],
       };
       currentQuestion.answers = [];
       questions.push(currentQuestion);
     } else {
       currentQuestion.answers.push({
-        prompt: sheet[column.prompt + row],
-        correct: sheet[column.correct + row] && sheet[column.correct + row].h,
+        prompt: sheet[column.prompt + currentRow],
+        correct:
+          sheet[column.correct + currentRow] &&
+          sheet[column.correct + currentRow].h,
       });
     }
-    row++;
+    currentRow++;
   }
   return questions;
 };
