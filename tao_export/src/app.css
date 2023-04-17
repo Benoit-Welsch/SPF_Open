@@ -26,6 +26,25 @@ body {
   text-decoration: underline;
 }
 
+.grid-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.col-4 {
+  width: 31%;
+}
+
+.col-8 {
+  width: 65%;
+}
+
+.col-12 {
+  width: 98%;
+}
+
 .col-12::after {
   content: "\a";
   white-space: pre;
@@ -39,6 +58,15 @@ body {
   .hide-print {
     display: none !important;
   }
+}
+
+@page {
+  margin: 5px 10px;
+  padding: 0;
+}
+
+ul {
+  margin: 5px 0;
 }
 
 p {
