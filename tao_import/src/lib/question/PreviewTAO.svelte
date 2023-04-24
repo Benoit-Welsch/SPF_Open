@@ -1,19 +1,26 @@
 <script lang="ts">
-  import type { QCM } from "./questions";
-  import { TaoPreviewBind } from "../store";
+  import { langPrefix, type QCM } from "./questions";
+  import { langOutput, TaoPreviewBind } from "../store";
+  import { get } from "svelte/store";
 
   export let QCMs: QCM[] = [];
   export let hideAnswer: boolean;
+
+  let titlePrefix;
+
+  langOutput.subscribe((l) => {
+    titlePrefix = langPrefix(l).titlePrefix;
+  });
 </script>
 
 <div class="questions" bind:this={$TaoPreviewBind}>
-  {#each QCMs as QCM}
+  {#each QCMs as QCM, n}
     <div
       class="question"
       style=" page-break-inside: avoid !important;
     break-inside: avoid-page !important;"
     >
-      <div class="title">{QCM.id && QCM.id.v ? QCM.id.v : QCM.id}</div>
+      <div class="title">{titlePrefix + n}</div>
       <div class="prompt">
         <br />
         {@html QCM.prompt.r}

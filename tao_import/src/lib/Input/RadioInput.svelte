@@ -20,7 +20,6 @@
       id: Math.round(Math.random() * 100) + i.txt,
       ...i,
     }));
-    console.log(inputChoices);
     if (!select) select = inputChoices[0];
     const { id, txt, value } = select;
     choice = value ? value : txt ? txt : id;

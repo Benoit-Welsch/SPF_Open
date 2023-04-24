@@ -40,7 +40,7 @@
         { txt: "PDF" },
         { txt: "WORD", disabled: true },
         { txt: "PPTX", disabled: true },
-        { txt: "QTI", disabled: true },
+        { txt: "QTI" },
       ]}
       bind:choice={$selectedFormat}
     />
@@ -49,7 +49,7 @@
       inputChoices={[
         { txt: "FR" },
         { txt: "NL" },
-        { txt: "DE", disabled: true },
+        { txt: "DE" },
       ]}
       bind:choice={$langOutput}
     />
