@@ -11,17 +11,22 @@
     promptColumn,
     correctColumn,
     langOutput,
+    rowOffset,
   } from "../store";
 
   let linkFile: HTMLAnchorElement;
 
   const onClick = () => {
     const fileName = get(name);
-    const QCMs = parseSheet(get(workbook).Sheets[get(currentSheet)], {
-      title: get(titleColumn),
-      prompt: get(promptColumn),
-      correct: get(correctColumn),
-    });
+    const sheet = parseSheet(
+      get(workbook).Sheets[get(currentSheet)],
+      {
+        title: get(titleColumn),
+        prompt: get(promptColumn),
+        correct: get(correctColumn),
+      },
+      { offset: get(rowOffset) }
+    );
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
         const CSVString = exportToCSV(QCMs, { lang: get(langOutput) });

@@ -15,13 +15,18 @@ export const langOutput = writable("FR");
 export const titleColumn = writable("D");
 export const promptColumn = writable("F");
 export const correctColumn = writable("G");
-// Detect any change to column event
-export const column = derived(
-  [titleColumn, promptColumn, correctColumn],
-  ([$titleColumn, $promptColumn, $correctColumn]) => [
+
+// Row
+export const rowOffset = writable(7);
+
+// Detect any change to column/row event
+export const column_row = derived(
+  [titleColumn, promptColumn, correctColumn, rowOffset],
+  ([$titleColumn, $promptColumn, $correctColumn, $rowOffset]) => [
     $titleColumn,
     $promptColumn,
     $correctColumn,
+    $rowOffset,
   ]
 );
 

@@ -115,7 +115,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
   if (Instructie) {
-    prompt = "qsd" || Array.from(xDoc.getElementsByTagName("assessmentTest"));
+    prompt = Array.from(xDoc.getElementsByTagName("assessmentTest"));
     answers = [];
     type = "Instruction";
   } else if (QO) {

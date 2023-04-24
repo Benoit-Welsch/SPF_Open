@@ -12,4 +12,4 @@ Parse QTI package from TAO and export them to PDF.
 
 Parse xlsx file into CSV, PDF, Word, PPTX and QTI Packages (TAO)
 
-![image](https://user-images.githubusercontent.com/56845767/226914696-3a9e4317-b9d3-4170-ad64-12320cfdc833.png)
+![image](https://user-images.githubusercontent.com/56845767/230563665-72b96f00-17c9-4d54-bc57-7e4c1dc2655d.png)

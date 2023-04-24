@@ -2,6 +2,7 @@
   import Download from "./Input/Download.svelte";
   import DropZone from "./Input/DropZone.svelte";
   import LetterPicker from "./Input/LetterPicker.svelte";
+  import NumberPicker from "./Input/NumberPicker.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
   import {
     currentSheet,
@@ -12,6 +13,7 @@
     correctColumn,
     workbook,
     langOutput,
+    rowOffset,
   } from "./store";
   let sheet: { txt: string; selected: boolean }[];
 
@@ -66,6 +68,7 @@
         { txt: "ON", disabled: true },
       ]}
     />
+    <NumberPicker title="Row offset" bind:value={$rowOffset}/>
   </div>
 
   <fieldset class="columnPicker">

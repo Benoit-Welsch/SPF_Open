@@ -13,7 +13,7 @@
   style="page-break-inside: avoid !important; break-inside: avoid;"
 >
   <div class="title">{question.title}</div>
-  <div class="prompt">
+  <div class="prompt grid-row">
     {#each question.prompt as prompt}
       {@html prompt.innerHTML}
     {/each}
@@ -62,6 +62,11 @@
 
   .prompt {
     padding: 0 0 0 5px;
+  }
+
+  .prompt :global(img) {
+    max-height: calc(297mm - 100px);
+    width: auto;
   }
 
   .answers {

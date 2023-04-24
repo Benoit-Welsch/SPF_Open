@@ -77,8 +77,9 @@
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 <Settings bind:hideAnswer bind:showInstruction />
+<button  class="hide-print" on:click|preventDefault={() => window.print()}>Get PDF</button>
 <button class="hide-print" on:click|preventDefault={makePdfOnClick}
-  >Get PDF</button
+  >Get long PDF (not recommended for printing)</button
 >
 {#if questions.length > 0}
   <div class="nb-questions hide-print">
