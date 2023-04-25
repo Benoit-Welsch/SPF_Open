@@ -29,7 +29,7 @@
     );
     switch (get(selectedFormat).toLocaleLowerCase()) {
       case "csv":
-        const CSVString = exportToCSV(QCMs, { lang: get(langOutput) });
+        const CSVString = exportToCSV(sheet, { lang: get(langOutput) });
 
         const blob = new Blob([CSVString], { type: "text/csv;charset=utf-8," });
         const objUrl = URL.createObjectURL(blob);
@@ -42,7 +42,7 @@
         window.print();
         break;
       case "qti":
-        const { manifest, questionsManifest } = exportToQTI(QCMs, {
+        const { manifest, questionsManifest } = exportToQTI(sheet, {
           lang: get(langOutput),
         });
 
