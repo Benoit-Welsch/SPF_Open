@@ -20,7 +20,7 @@
       style=" page-break-inside: avoid !important;
     break-inside: avoid-page !important;"
     >
-      <div class="title">{titlePrefix + n}</div>
+      <div class="title">{prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1)}</div>
       <div class="prompt">
         <br />
         {@html QCM.prompt.r}
