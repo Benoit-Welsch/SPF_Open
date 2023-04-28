@@ -71,7 +71,7 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
   lines.push(headerSCV.join(";"));
   questions.forEach((question, n) => {
     let line = [];
-    line.push('"' + (prefix.titlePrefix + (n + 1)).toString().trim() + '"');
+    line.push('"' + (prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1)).toString().trim() + '"');
     line.push(
       '"' +
         (question.prompt.v ? question.prompt.v : question.prompt.w).trim() +
