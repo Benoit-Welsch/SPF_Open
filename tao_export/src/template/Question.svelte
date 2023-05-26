@@ -5,6 +5,7 @@
 
   let questionDom;
   export let hideAnswer = false;
+  export let showLetter = true;
 </script>
 
 <div
@@ -20,7 +21,12 @@
   </div>
 
   {#if question.type === "QCM" || question.type === "Instruction QCM"}
-    <ul class="answers">
+    <ul
+      class="answers"
+      style={showLetter
+        ? "--answerStyle:upper-alpha; --answerCorrectStyle:upper-alpha;"
+        : "--answerStyle:circle; --answerCorrectStyle:disc;"}
+    >
       {#each question.answers as answer}
         <li class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}>
           <div class="text">{@html answer.txt}</div>
@@ -76,7 +82,7 @@
     border: 6px solid #f5f4f2;
     padding: 5px;
     padding-left: 20px;
-    list-style: circle;
+    list-style: var(--answerStyle);
   }
 
   .answer {
@@ -86,7 +92,7 @@
   }
 
   .answer.correct {
-    list-style-type: disc;
+    list-style-type: var(--answerCorrectStyle);
   }
 
   .answer .points {

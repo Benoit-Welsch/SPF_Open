@@ -14,6 +14,7 @@
 
   let hideAnswer = false;
   let showInstruction = false;
+  let showLetter = false;
   let heightInPx = 0;
 
   let files: FileList;
@@ -76,8 +77,10 @@
 </svelte:head>
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
-<Settings bind:hideAnswer bind:showInstruction />
-<button  class="hide-print" on:click|preventDefault={() => window.print()}>Get PDF</button>
+<Settings bind:hideAnswer bind:showInstruction bind:showLetter />
+<button class="hide-print" on:click|preventDefault={() => window.print()}
+  >Get PDF</button
+>
 <button class="hide-print" on:click|preventDefault={makePdfOnClick}
   >Get long PDF (not recommended for printing)</button
 >
@@ -93,7 +96,7 @@
   <div bind:this={HtmlTAOPDF} bind:clientHeight={heightInPx}>
     {#each questions as question}
       {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
-        <Question {question} bind:hideAnswer />
+        <Question {question} bind:hideAnswer bind:showLetter/>
       {/if}
     {/each}
   </div>
