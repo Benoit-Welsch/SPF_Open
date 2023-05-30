@@ -58,7 +58,7 @@ export const langPrefix = (lang) => {
       break;
     case "DE":
       zone = "de-DE";
-      titlePrefix = "MCF ";
+      titlePrefix = "Frage ";
       break;
   }
   return { zone, titlePrefix };
