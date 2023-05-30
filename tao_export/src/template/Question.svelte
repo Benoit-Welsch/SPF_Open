@@ -9,12 +9,14 @@
 </script>
 
 <div
-  class={`question ${question.type.includes("Instruction") ? "flex" : ""}`}
+  class="question"
   bind:this={questionDom}
   style="page-break-inside: avoid !important; break-inside: avoid;"
 >
   <div class="title">{question.title}</div>
-  <div class="prompt grid-row">
+  <div
+    class={`prompt ${question.type.includes("Instruction") ? "grid-row" : ""}`}
+  >
     {#each question.prompt as prompt}
       {@html prompt.innerHTML}
     {/each}
@@ -46,9 +48,11 @@
     }
   }
 
-  .flex {
+  .grid-row {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .question {
@@ -70,11 +74,12 @@
   }
 
   .prompt {
-    padding: 0 0 0 5px;
+    padding: 0 0 0 8px;
   }
 
   .prompt :global(img) {
     max-height: calc(297mm - 100px);
+    max-width: 98%;
     width: auto;
   }
 
