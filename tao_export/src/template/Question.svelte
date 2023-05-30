@@ -14,7 +14,9 @@
   style="page-break-inside: avoid !important; break-inside: avoid;"
 >
   <div class="title">{question.title}</div>
-  <div class="prompt grid-row">
+  <div
+    class={`prompt ${question.type.includes("Instruction") ? "grid-row" : ""}`}
+  >
     {#each question.prompt as prompt}
       {@html prompt.innerHTML}
     {/each}
@@ -46,10 +48,15 @@
     }
   }
 
+  .grid-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
   .question {
     font-family: "Source Sans Pro";
-    display: flex;
-    flex-direction: column;
     border: 3px solid #007f9f;
     margin: 30px 10px;
     max-width: 1000px;
@@ -67,11 +74,12 @@
   }
 
   .prompt {
-    padding: 0 0 0 5px;
+    padding: 0 0 0 8px;
   }
 
   .prompt :global(img) {
     max-height: calc(297mm - 100px);
+    max-width: 98%;
     width: auto;
   }
 

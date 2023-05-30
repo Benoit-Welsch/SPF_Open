@@ -26,13 +26,6 @@ body {
   text-decoration: underline;
 }
 
-.grid-row {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
 .col-4 {
   width: 31%;
 }
