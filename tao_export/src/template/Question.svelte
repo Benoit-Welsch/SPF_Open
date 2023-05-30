@@ -9,7 +9,7 @@
 </script>
 
 <div
-  class="question"
+  class={`question ${question.type.includes("Instruction") ? "flex" : ""}`}
   bind:this={questionDom}
   style="page-break-inside: avoid !important; break-inside: avoid;"
 >
@@ -46,10 +46,13 @@
     }
   }
 
-  .question {
-    font-family: "Source Sans Pro";
+  .flex {
     display: flex;
     flex-direction: column;
+  }
+
+  .question {
+    font-family: "Source Sans Pro";
     border: 3px solid #007f9f;
     margin: 30px 10px;
     max-width: 1000px;
