@@ -6,6 +6,7 @@
   let questionDom;
   export let hideAnswer = false;
   export let showLetter = true;
+
 </script>
 
 <div

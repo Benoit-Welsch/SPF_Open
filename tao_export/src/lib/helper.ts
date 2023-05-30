@@ -141,8 +141,6 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
       type = "QCM";
     }
 
-    console.log(type);
-
     prompt = Array.from(inner.getElementsByClassName("grid-row")).filter(
       (d) => d.getElementsByTagName("simpleChoice").length === 0
     );
