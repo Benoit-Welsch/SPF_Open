@@ -1,4 +1,5 @@
 import { create } from "xmlbuilder2";
+import { CSV } from "../helper";
 
 const headerSCV = [
   "name",
@@ -67,35 +68,32 @@ export const langPrefix = (lang) => {
 export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
   const prefix = langPrefix(lang);
 
-  let lines = [];
-  lines.push(headerSCV.join(";"));
+  const csv = new CSV({ header: headerSCV });
+
   questions.forEach((question, n) => {
-    let line = [];
-    line.push('"' + (prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1)).toString().trim() + '"');
-    line.push(
-      '"' +
-        (question.prompt.v ? question.prompt.v : question.prompt.w).trim() +
-        '"'
-    );
-    line.push(1);
-    line.push(prefix.zone);
-    line.push(0);
-    line.push(1);
-    line.push(
-      question.answers
-        .map(
-          (answ) => '"' + (answ.prompt.v ? answ.prompt.v : answ.prompt.w) + '"'
-        )
-        .map((v) => (typeof v === "string" ? v.trim() : v))
-        .join(";")
-    );
-    line.push(
-      question.answers.map((answ) => (answ.correct ? "3" : "-1")).join(";")
-    );
-    line.push("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
-    lines.push(line.join(";"));
+
+    csv.addSequentially(prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString());
+    csv.addSequentially(question.prompt.v ? question.prompt.v : question.prompt.w);
+
+    csv.addSequentially(1);
+    csv.addSequentially(prefix.zone);
+    csv.addSequentially(0);
+    csv.addSequentially(1);
+
+    question.answers // Map question proposition
+      .map((answ) => (answ.prompt.v ? answ.prompt.v : answ.prompt.w))
+      .forEach(p => csv.addSequentially(p))
+
+    question.answers // Map question points
+      .map((answ) => (answ.correct ? "3" : "-1"))
+      .forEach(p => csv.addSequentially(p))
+
+    csv.addSequentially("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
   });
-  return lines.map((l) => l.replace(/(\r\n|\n|\r)/gm, " ")).join("\r\n");
+
+  console.log(csv)
+
+  return csv.toStringEncoded()
 };
 
 export const parseSheet = (
