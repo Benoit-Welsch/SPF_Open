@@ -1,5 +1,5 @@
 import { create } from "xmlbuilder2";
-import { CSV } from "../helper";
+import { CSV } from "../csv";
 
 const headerSCV = [
   "name",
@@ -91,39 +91,7 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
     csv.addSequentially("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
   });
 
-  console.log(csv)
-
   return csv.toStringEncoded()
-};
-
-export const parseSheet = (
-  sheet,
-  column: { title: string; prompt: string; correct: string },
-  row: { offset: number }
-) => {
-  let currentRow = row.offset;
-  let questions: QCM[] = [];
-  let currentQuestion: QCM;
-
-  while (sheet[column.prompt + currentRow]) {
-    if ((currentRow - row.offset) % 5 == 0 || currentRow == row.offset) {
-      currentQuestion = {
-        id: sheet[column.title + currentRow],
-        prompt: sheet[column.prompt + currentRow],
-      };
-      currentQuestion.answers = [];
-      questions.push(currentQuestion);
-    } else {
-      currentQuestion.answers.push({
-        prompt: sheet[column.prompt + currentRow],
-        correct:
-          sheet[column.correct + currentRow] &&
-          sheet[column.correct + currentRow].h,
-      });
-    }
-    currentRow++;
-  }
-  return questions;
 };
 
 export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
