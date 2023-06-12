@@ -9,14 +9,25 @@ class Txt {
   v: string;
   w: string;
 
-  constructor({ h, r, t, v, w }: { h: string, r: string, t: string, v: string, w: string }) {
+  constructor({
+    h,
+    r,
+    t,
+    v,
+    w,
+  }: {
+    h: string;
+    r: string;
+    t: string;
+    v: string;
+    w: string;
+  }) {
     this.h = h;
     this.r = r;
     this.t = t;
     this.v = v;
     this.w = w;
   }
-
 }
 
 export class Question {
@@ -33,7 +44,6 @@ export class Question {
     column: { title: string; prompt: string; correct: string },
     row: { offset: number }
   ) {
-
     let currentRow = row.offset;
     let questions: QCM[] = [];
     let currentQuestion: QCM;
@@ -43,24 +53,21 @@ export class Question {
         currentQuestion = new QCM({
           id: sheet[column.title + currentRow],
           prompt: sheet[column.prompt + currentRow],
-          answers: []
-        })
+          answers: [],
+        });
         questions.push(currentQuestion);
       } else {
-        currentQuestion.answers.push(
-          {
-            prompt: sheet[column.prompt + currentRow],
-            correct:
-              sheet[column.correct + currentRow] &&
-              sheet[column.correct + currentRow].h,
-          });
+        currentQuestion.answers.push({
+          prompt: sheet[column.prompt + currentRow],
+          correct:
+            sheet[column.correct + currentRow] &&
+            sheet[column.correct + currentRow].h,
+        });
       }
       currentRow++;
     }
     return questions;
-
   }
-
 }
 
 export interface Answer {
@@ -69,18 +76,18 @@ export interface Answer {
 }
 
 class QCM extends Question {
-  answers: Answer[]
+  answers: Answer[];
 
-
-  constructor({ id, prompt, answers }: { id: Txt, prompt: Txt, answers: Answer[] }) {
+  constructor({
+    id,
+    prompt,
+    answers,
+  }: {
+    id: Txt;
+    prompt: Txt;
+    answers: Answer[];
+  }) {
     super({ id, prompt });
-    this.answers = answers
+    this.answers = answers;
   }
-
-
-
 }
-
-
-
-

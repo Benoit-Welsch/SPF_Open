@@ -71,9 +71,12 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
   const csv = new CSV({ header: headerSCV });
 
   questions.forEach((question, n) => {
-
-    csv.addSequentially(prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString());
-    csv.addSequentially(question.prompt.v ? question.prompt.v : question.prompt.w);
+    csv.addSequentially(
+      prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString()
+    );
+    csv.addSequentially(
+      question.prompt.v ? question.prompt.v : question.prompt.w
+    );
 
     csv.addSequentially(1);
     csv.addSequentially(prefix.zone);
@@ -82,16 +85,18 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
 
     question.answers // Map question proposition
       .map((answ) => (answ.prompt.v ? answ.prompt.v : answ.prompt.w))
-      .forEach(p => csv.addSequentially(p))
+      .forEach((p) => csv.addSequentially(p));
 
     question.answers // Map question points
       .map((answ) => (answ.correct ? "3" : "-1"))
-      .forEach(p => csv.addSequentially(p))
+      .forEach((p) => csv.addSequentially(p));
 
-    csv.addSequentially("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
+    csv.addSequentially(
+      "choice_" + (question.answers.findIndex((q) => q.correct) + 1)
+    );
   });
 
-  return csv.toStringEncoded()
+  return csv.toStringEncoded();
 };
 
 export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {

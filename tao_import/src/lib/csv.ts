@@ -1,10 +1,9 @@
-export class CSV extends Array<Array<string | number>>{
-
+export class CSV extends Array<Array<string | number>> {
   maxCol = 0;
 
   constructor({ header }) {
-    super(new Array<string>(1))
-    if (header) this.setHeader(header)
+    super(new Array<string>(1));
+    if (header) this.setHeader(header);
   }
 
   setHeader(head: string[]) {
@@ -15,45 +14,43 @@ export class CSV extends Array<Array<string | number>>{
   addSequentially(s: string | number) {
     const lastLine = this[this.length - 1];
     if (lastLine.length >= this.maxCol || this.length === 1) {
-      this.push(new Array(0))
-      return this.addSequentially(s)
+      this.push(new Array(0));
+      return this.addSequentially(s);
     }
-    return lastLine.push(s)
+    return lastLine.push(s);
   }
 
   toString(): string {
-    return this
-      .map(c => c
-        .map(e => typeof e === "string" ? '"' + e.trim() + '"' : e)
-        .join(';'))
-      .join("\r\n");
+    return this.map((c) =>
+      c.map((e) => (typeof e === "string" ? '"' + e.trim() + '"' : e)).join(";")
+    ).join("\r\n");
   }
 
   toStringEncoded() {
     const rules = [
       {
         from: /(\r\n|\n|\r)/gm,
-        to: " "
+        to: " ",
       },
       {
         from: '"',
-        to: '""'
-      }
+        to: '""',
+      },
     ];
-    return this
-      .map(l => l
-        .map(v => {
+    return this.map((l) =>
+      l
+        .map((v) => {
           if (typeof v === "string") {
             rules.forEach(({ from, to }) => {
               //@ts-ignore%
-              v = v.replaceAll(from, to)
-            })
+              v = v.replaceAll(from, to);
+            });
           }
           return v;
         })
-        .map(e => typeof e === "string" ? '"' + e.trim() + '"' : e) // Add trailing ""
-        .join(';')) // Add CSV separator
+        .map((e) => (typeof e === "string" ? '"' + e.trim() + '"' : e)) // Add trailing ""
+        .join(";")
+    ) // Add CSV separator
       .join("\r\n"); // Add break line
   }
-
 }
