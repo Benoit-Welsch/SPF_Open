@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { langOutput, TaoPreviewBind } from "../store";
-  import { langZone, type QCM } from "./question";
+  import { langOutput, TaoPreviewBind } from "../helper/store";
+  import { langZone, type QCM } from "../helper/question";
 
   export let QCMs: QCM[] = [];
   export let hideAnswer: boolean;

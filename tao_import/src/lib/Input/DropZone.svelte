@@ -1,6 +1,6 @@
 <script lang="ts">
   import DropZone from "svelte-atoms/DropZone.svelte";
-  import { currentSheet, file, name, workbook } from "../store";
+  import { currentSheet, file, name, workbook } from "../helper/store";
   import * as XLSX from "xlsx";
 
   const maxLenghtName = 45;

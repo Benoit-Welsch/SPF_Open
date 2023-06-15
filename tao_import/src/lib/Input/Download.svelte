@@ -1,7 +1,7 @@
 <script lang="ts">
   import { get } from "svelte/store";
   import { BlobReader, ZipWriter, BlobWriter } from "@zip.js/zip.js";
-  import { exportToCSV, exportToQTI } from "../question/questions";
+  import { exportToCSV, exportToQTI } from "../helper/questions";
   import {
     currentSheet,
     selectedFormat,
@@ -12,8 +12,8 @@
     correctColumn,
     langOutput,
     rowOffset,
-  } from "../store";
-  import { Question } from "../question/question";
+  } from "../helper/store";
+  import { Question } from "../helper/question";
 
   let linkFile: HTMLAnchorElement;
 

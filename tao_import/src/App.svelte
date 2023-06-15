@@ -2,7 +2,7 @@
   import { get } from "svelte/store";
   import * as XLSX from "xlsx";
   import Menu from "./lib/Menu.svelte";
-  import PreviewTao from "./lib/question/PreviewTAO.svelte";
+  import PreviewTao from "./lib/preview/PreviewTAO.svelte";
   import {
     column_row,
     correctColumn,
@@ -12,8 +12,8 @@
     promptColumn,
     rowOffset,
     titleColumn,
-  } from "./lib/store";
-  import { Question } from "./lib/question/question";
+  } from "./lib/helper/store";
+  import { Question } from "./lib/helper/question";
 
   let questions = [];
   let workbook;

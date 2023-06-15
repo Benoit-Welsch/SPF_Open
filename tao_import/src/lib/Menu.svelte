@@ -14,7 +14,7 @@
     workbook,
     langOutput,
     rowOffset,
-  } from "./store";
+  } from "./helper/store";
   let sheet: { txt: string; selected: boolean }[];
 
   workbook.subscribe((workbook) => {
