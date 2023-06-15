@@ -42,7 +42,7 @@ export class CSV extends Array<Array<string | number>> {
         .map((v) => {
           if (typeof v === "string") {
             rules.forEach(({ from, to }) => {
-              //@ts-ignore%
+              //@ts-ignore
               v = v.replaceAll(from, to);
             });
           }
@@ -52,5 +52,9 @@ export class CSV extends Array<Array<string | number>> {
         .join(";")
     ) // Add CSV separator
       .join("\r\n"); // Add break line
+  }
+
+  static readString(csv: string) {
+    //TODO : Not implemented
   }
 }

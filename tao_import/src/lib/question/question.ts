@@ -2,31 +2,31 @@ export interface QO extends Question {
   answerLenght: number;
 }
 
-class Txt {
+interface TxtType {
+  h: string;
+  r: string;
+  t: string;
+  v: string;
+  w: string;
+}
+
+class Txt implements TxtType {
   h: string;
   r: string;
   t: string;
   v: string;
   w: string;
 
-  constructor({
-    h,
-    r,
-    t,
-    v,
-    w,
-  }: {
-    h: string;
-    r: string;
-    t: string;
-    v: string;
-    w: string;
-  }) {
+  constructor({ h, r, t, v, w }: TxtType) {
     this.h = h;
     this.r = r;
     this.t = t;
     this.v = v;
     this.w = w;
+  }
+
+  toString() {
+    return this.r ? this.r : this.w;
   }
 }
 
@@ -35,8 +35,8 @@ export class Question {
   prompt: Txt;
 
   constructor({ id, prompt }: Question) {
-    this.id = id;
-    this.prompt = prompt;
+    this.id = new Txt(id);
+    this.prompt = new Txt(prompt);
   }
 
   static parseSheet(
@@ -53,16 +53,15 @@ export class Question {
         currentQuestion = new QCM({
           id: sheet[column.title + currentRow],
           prompt: sheet[column.prompt + currentRow],
-          answers: [],
         });
         questions.push(currentQuestion);
       } else {
-        currentQuestion.answers.push({
+        currentQuestion.addAlt({
           prompt: sheet[column.prompt + currentRow],
           correct:
             sheet[column.correct + currentRow] &&
             sheet[column.correct + currentRow].h,
-        });
+        })
       }
       currentRow++;
     }
@@ -75,7 +74,7 @@ export interface Answer {
   correct: boolean;
 }
 
-class QCM extends Question {
+export class QCM extends Question {
   answers: Answer[];
 
   constructor({
@@ -85,9 +84,42 @@ class QCM extends Question {
   }: {
     id: Txt;
     prompt: Txt;
-    answers: Answer[];
+    answers?: Answer[];
   }) {
-    super({ id, prompt });
-    this.answers = answers;
+    super({ id: new Txt(id), prompt: new Txt(prompt) });
+    this.answers = answers ? answers : [];
   }
+
+  addAlt({ prompt, correct }: Answer) {
+    this.answers.push({
+      prompt: new Txt(prompt),
+      correct
+    })
+  }
+
+  getFakeId(lang: string, n: number) {
+    return langZone(lang).titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString()
+  };
+
+
+}
+
+export const langZone = (lang: string) => {
+  let zone = "";
+  let titlePrefix = "";
+  switch (lang) {
+    case "FR":
+      zone = "fr-FR";
+      titlePrefix = "QCM ";
+      break;
+    case "NL":
+      zone = "nl-NL";
+      titlePrefix = "MKV ";
+      break;
+    case "DE":
+      zone = "de-DE";
+      titlePrefix = "Frage ";
+      break;
+  }
+  return { zone, titlePrefix }
 }

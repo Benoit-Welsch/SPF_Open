@@ -1,5 +1,6 @@
 import { create } from "xmlbuilder2";
 import { CSV } from "../csv";
+import { langZone, type QCM } from "./question";
 
 const headerSCV = [
   "name",
@@ -19,54 +20,8 @@ const headerSCV = [
   "correct_answer",
 ];
 
-export interface Txt {
-  h: string;
-  r: string;
-  t: string;
-  v: string;
-  w: string;
-}
-
-export interface Question {
-  id: Txt;
-  prompt: Txt;
-}
-
-export interface answer {
-  prompt: Txt;
-  correct: boolean;
-}
-
-export interface QCM extends Question {
-  answers?: answer[];
-}
-
-export interface QO extends Question {
-  answerLenght: number;
-}
-
-export const langPrefix = (lang) => {
-  let zone = "";
-  let titlePrefix = "";
-  switch (lang) {
-    case "FR":
-      zone = "fr-FR";
-      titlePrefix = "QCM ";
-      break;
-    case "NL":
-      zone = "nl-NL";
-      titlePrefix = "MKV ";
-      break;
-    case "DE":
-      zone = "de-DE";
-      titlePrefix = "Frage ";
-      break;
-  }
-  return { zone, titlePrefix };
-};
-
 export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
-  const prefix = langPrefix(lang);
+  const prefix = langZone(lang);
 
   const csv = new CSV({ header: headerSCV });
 
@@ -100,7 +55,7 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
 };
 
 export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
-  const { zone, titlePrefix } = langPrefix(lang);
+  const { zone, titlePrefix } = langZone(lang);
   let questionsManifest = [];
   const manifest = create({ version: "1.0" })
     .ele("manifest", {
