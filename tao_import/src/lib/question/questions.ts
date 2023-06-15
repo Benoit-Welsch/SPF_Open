@@ -1,4 +1,6 @@
 import { create } from "xmlbuilder2";
+import { CSV } from "../csv";
+import { langZone, type QCM } from "./question";
 
 const headerSCV = [
   "name",
@@ -18,118 +20,42 @@ const headerSCV = [
   "correct_answer",
 ];
 
-export interface Txt {
-  h: string;
-  r: string;
-  t: string;
-  v: string;
-  w: string;
-}
-
-export interface Question {
-  id: Txt;
-  prompt: Txt;
-}
-
-export interface answer {
-  prompt: Txt;
-  correct: boolean;
-}
-
-export interface QCM extends Question {
-  answers?: answer[];
-}
-
-export interface QO extends Question {
-  answerLenght: number;
-}
-
-export const langPrefix = (lang) => {
-  let zone = "";
-  let titlePrefix = "";
-  switch (lang) {
-    case "FR":
-      zone = "fr-FR";
-      titlePrefix = "QCM ";
-      break;
-    case "NL":
-      zone = "nl-NL";
-      titlePrefix = "MKV ";
-      break;
-    case "DE":
-      zone = "de-DE";
-      titlePrefix = "Frage ";
-      break;
-  }
-  return { zone, titlePrefix };
-};
-
 export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
-  const prefix = langPrefix(lang);
+  const prefix = langZone(lang);
 
-  let lines = [];
-  lines.push(headerSCV.join(";"));
+  const csv = new CSV({ header: headerSCV });
+
   questions.forEach((question, n) => {
-    let line = [];
-    line.push('"' + (prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1)).toString().trim() + '"');
-    line.push(
-      '"' +
-        (question.prompt.v ? question.prompt.v : question.prompt.w).trim() +
-        '"'
+    csv.addSequentially(
+      prefix.titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString()
     );
-    line.push(1);
-    line.push(prefix.zone);
-    line.push(0);
-    line.push(1);
-    line.push(
-      question.answers
-        .map(
-          (answ) => '"' + (answ.prompt.v ? answ.prompt.v : answ.prompt.w) + '"'
-        )
-        .map((v) => (typeof v === "string" ? v.trim() : v))
-        .join(";")
+    csv.addSequentially(
+      question.prompt.v ? question.prompt.v : question.prompt.w
     );
-    line.push(
-      question.answers.map((answ) => (answ.correct ? "3" : "-1")).join(";")
+
+    csv.addSequentially(1);
+    csv.addSequentially(prefix.zone);
+    csv.addSequentially(0);
+    csv.addSequentially(1);
+
+    question.answers // Map question proposition
+      .map((answ) => (answ.prompt.v ? answ.prompt.v : answ.prompt.w))
+      .forEach((p) => csv.addSequentially(p));
+
+    question.answers // Map question points
+      .map((answ) => (answ.correct ? "3" : "-1"))
+      .forEach((p) => csv.addSequentially(p));
+
+    csv.addSequentially(
+      "choice_" + (question.answers.findIndex((q) => q.correct) + 1)
     );
-    line.push("choice_" + (question.answers.findIndex((q) => q.correct) + 1));
-    lines.push(line.join(";"));
   });
-  return lines.map((l) => l.replace(/(\r\n|\n|\r)/gm, " ")).join("\r\n");
-};
 
-export const parseSheet = (
-  sheet,
-  column: { title: string; prompt: string; correct: string },
-  row: { offset: number }
-) => {
-  let currentRow = row.offset;
-  let questions: QCM[] = [];
-  let currentQuestion: QCM;
-
-  while (sheet[column.prompt + currentRow]) {
-    if ((currentRow - row.offset) % 5 == 0 || currentRow == row.offset) {
-      currentQuestion = {
-        id: sheet[column.title + currentRow],
-        prompt: sheet[column.prompt + currentRow],
-      };
-      currentQuestion.answers = [];
-      questions.push(currentQuestion);
-    } else {
-      currentQuestion.answers.push({
-        prompt: sheet[column.prompt + currentRow],
-        correct:
-          sheet[column.correct + currentRow] &&
-          sheet[column.correct + currentRow].h,
-      });
-    }
-    currentRow++;
-  }
-  return questions;
+  return csv.toStringEncoded();
 };
 
 export const exportToQTI = (questions: QCM[], { lang }: { lang: string }) => {
-  const { zone, titlePrefix } = langPrefix(lang);
+  const { zone, titlePrefix } = langZone(lang);
   let questionsManifest = [];
   const manifest = create({ version: "1.0" })
     .ele("manifest", {

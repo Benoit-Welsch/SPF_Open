@@ -3,7 +3,6 @@
   import * as XLSX from "xlsx";
   import Menu from "./lib/Menu.svelte";
   import PreviewTao from "./lib/question/PreviewTAO.svelte";
-  import { parseSheet } from "./lib/question/questions";
   import {
     column_row,
     correctColumn,
@@ -14,14 +13,15 @@
     rowOffset,
     titleColumn,
   } from "./lib/store";
+  import { Question } from "./lib/question/question";
 
-  let currentSheetHolder = [];
+  let questions = [];
   let workbook;
 
   const parseAndShow = () => {
     if (!workbook) return;
     setTimeout(() => {
-      currentSheetHolder = parseSheet(
+      questions = Question.parseSheet(
         workbook.Sheets[get(currentSheet)],
         {
           title: get(titleColumn),
@@ -35,7 +35,7 @@
 
   file.subscribe(async (f) => {
     if (!f) return;
-    currentSheetHolder = [];
+    questions = [];
     workbook = XLSX.read(await f.arrayBuffer());
   });
 
@@ -53,7 +53,7 @@
     <Menu />
   </div>
   <!-- <PreviewSvg /> -->
-  <PreviewTao bind:QCMs={currentSheetHolder} bind:hideAnswer={$hideAnswer} />
+  <PreviewTao bind:QCMs={questions} bind:hideAnswer={$hideAnswer} />
 </main>
 
 <style>

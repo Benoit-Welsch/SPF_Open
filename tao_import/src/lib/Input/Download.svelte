@@ -1,7 +1,7 @@
 <script lang="ts">
   import { get } from "svelte/store";
   import { BlobReader, ZipWriter, BlobWriter } from "@zip.js/zip.js";
-  import { exportToCSV, exportToQTI, parseSheet } from "../question/questions";
+  import { exportToCSV, exportToQTI } from "../question/questions";
   import {
     currentSheet,
     selectedFormat,
@@ -13,12 +13,13 @@
     langOutput,
     rowOffset,
   } from "../store";
+  import { Question } from "../question/question";
 
   let linkFile: HTMLAnchorElement;
 
   const onClick = () => {
     const fileName = get(name);
-    const sheet = parseSheet(
+    const sheet = Question.parseSheet(
       get(workbook).Sheets[get(currentSheet)],
       {
         title: get(titleColumn),

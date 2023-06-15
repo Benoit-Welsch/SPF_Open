@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { langPrefix, type QCM } from "./questions";
   import { langOutput, TaoPreviewBind } from "../store";
-  import { get } from "svelte/store";
+  import { langZone, type QCM } from "./question";
 
   export let QCMs: QCM[] = [];
   export let hideAnswer: boolean;
@@ -9,7 +8,7 @@
   let titlePrefix;
 
   langOutput.subscribe((l) => {
-    titlePrefix = langPrefix(l).titlePrefix;
+    titlePrefix = langZone(l).titlePrefix;
   });
 </script>
 
@@ -20,10 +19,12 @@
       style=" page-break-inside: avoid !important;
     break-inside: avoid-page !important;"
     >
-      <div class="title">{titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1)}</div>
+      <div class="title">
+        {QCM.getFakeId($langOutput, n)}
+      </div>
       <div class="prompt">
         <br />
-        {@html QCM.prompt.r}
+        {@html QCM.prompt}
         <br />
         <br />
       </div>
@@ -35,7 +36,7 @@
             }`}
           >
             <div class="text">
-              {@html answer.prompt.r ? answer.prompt.r : answer.prompt.w}
+              {@html answer.prompt}
             </div>
             {#if hideAnswer !== true}
               <div class="points">{answer.correct ? 3 : -1}</div>
