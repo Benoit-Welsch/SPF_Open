@@ -61,7 +61,7 @@ export class Question {
           correct:
             sheet[column.correct + currentRow] &&
             sheet[column.correct + currentRow].h,
-        })
+        });
       }
       currentRow++;
     }
@@ -93,15 +93,16 @@ export class QCM extends Question {
   addAlt({ prompt, correct }: Answer) {
     this.answers.push({
       prompt: new Txt(prompt),
-      correct
-    })
+      correct,
+    });
   }
 
   getFakeId(lang: string, n: number) {
-    return langZone(lang).titlePrefix + (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString()
-  };
-
-
+    return (
+      langZone(lang).titlePrefix +
+      (n + 1 < 10 ? "0" + (n + 1) : n + 1).toString()
+    );
+  }
 }
 
 export const langZone = (lang: string) => {
@@ -121,5 +122,5 @@ export const langZone = (lang: string) => {
       titlePrefix = "Frage ";
       break;
   }
-  return { zone, titlePrefix }
-}
+  return { zone, titlePrefix };
+};
