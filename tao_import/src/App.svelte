@@ -14,6 +14,7 @@
     titleColumn,
   } from "./lib/helper/store";
   import { Question } from "./lib/helper/question";
+  import PreviewTable from "./lib/preview/PreviewTable.svelte";
 
   let questions = [];
   let workbook;
@@ -52,7 +53,6 @@
   <div class="left">
     <Menu />
   </div>
-  <!-- <PreviewSvg /> -->
   <PreviewTao bind:QCMs={questions} bind:hideAnswer={$hideAnswer} />
 </main>
 
