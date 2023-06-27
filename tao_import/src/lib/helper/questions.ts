@@ -18,6 +18,9 @@ const headerSCV = [
   "choice_3_score",
   "choice_4_score",
   "correct_answer",
+  "metadata_Specdimension",
+  "metadata_Speccompetence",
+  "metadata_Specindicator",
 ];
 
 export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {

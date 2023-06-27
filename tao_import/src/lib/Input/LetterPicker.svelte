@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let title: string;
+  export let title: string = "";
   export let value: string = "A";
   export let id = title + "-letter";
   let index = 0;

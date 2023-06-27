@@ -16,6 +16,10 @@ export const titleColumn = writable("D");
 export const promptColumn = writable("F");
 export const correctColumn = writable("G");
 
+export const dimensionColumn = writable(undefined)
+export const competencyColumn = writable(undefined)
+export const indicatorColumn = writable(undefined)
+
 // Row
 export const rowOffset = writable(7);
 

@@ -9,6 +9,7 @@
 
 <style>
   fieldset {
+    position: relative;
     border: 3px solid #00566b;
     display: flex;
     flex-wrap: wrap;

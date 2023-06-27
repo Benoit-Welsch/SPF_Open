@@ -4,6 +4,9 @@
   import LetterPicker from "./Input/LetterPicker.svelte";
   import NumberPicker from "./Input/NumberPicker.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
+  import Fieldset from "./container/Fieldset.svelte";
+  import OptionnalFieldset from "./container/OptionnalFieldset.svelte";
+  import Optionnal from "./container/OptionnalFieldset.svelte";
   import {
     currentSheet,
     selectedFormat,
@@ -14,6 +17,7 @@
     workbook,
     langOutput,
     rowOffset,
+    competencyColumn,
   } from "./helper/store";
   let sheet: { txt: string; selected: boolean }[];
 
@@ -46,11 +50,7 @@
     />
     <RadioInput
       title="Langage"
-      inputChoices={[
-        { txt: "FR" },
-        { txt: "NL" },
-        { txt: "DE" },
-      ]}
+      inputChoices={[{ txt: "FR" }, { txt: "NL" }, { txt: "DE" }]}
       bind:choice={$langOutput}
     />
     <RadioInput
@@ -68,7 +68,7 @@
         { txt: "ON", disabled: true },
       ]}
     />
-    <NumberPicker title="Row offset" bind:value={$rowOffset}/>
+    <NumberPicker title="Row offset" bind:value={$rowOffset} />
   </div>
 
   <fieldset class="columnPicker">
@@ -86,6 +86,18 @@
       <LetterPicker title="Answer" bind:value={$correctColumn} />
     </div>
   </fieldset>
+
+  <Fieldset title="Optionnal">
+    <OptionnalFieldset title="Comptency">
+      <LetterPicker title="Comptency" bind:value={$competencyColumn} />
+    </OptionnalFieldset>
+    <OptionnalFieldset title="Dimension">
+      <LetterPicker title="Dimension" bind:value={$competencyColumn} />
+    </OptionnalFieldset>
+    <OptionnalFieldset title="Comptency">
+      <LetterPicker title="Comptency" bind:value={$competencyColumn} />
+    </OptionnalFieldset>
+  </Fieldset>
 
   <div class="bottom">
     <Download />
