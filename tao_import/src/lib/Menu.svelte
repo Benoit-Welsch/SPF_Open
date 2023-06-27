@@ -5,8 +5,9 @@
   import NumberPicker from "./Input/NumberPicker.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
   import Fieldset from "./container/Fieldset.svelte";
-  import OptionnalFieldset from "./container/OptionnalFieldset.svelte";
-  import Optionnal from "./container/OptionnalFieldset.svelte";
+  import OptionnalLetterPicker from "./container/OptionnalLetterPicker.svelte";
+  import OptionnalFieldset from "./container/OptionnalLetterPicker.svelte";
+  import Optionnal from "./container/OptionnalLetterPicker.svelte";
   import {
     currentSheet,
     selectedFormat,
@@ -18,6 +19,8 @@
     langOutput,
     rowOffset,
     competencyColumn,
+    dimensionColumn,
+    indicatorColumn,
   } from "./helper/store";
   let sheet: { txt: string; selected: boolean }[];
 
@@ -73,32 +76,32 @@
 
   <fieldset class="columnPicker">
     <legend>Column</legend>
-    <div>
-      <label for="Title-letter">Title</label>
+    <div class="sub">
       <LetterPicker title="Title" bind:value={$titleColumn} />
-    </div>
-    <div>
-      <label for="Prompt-letter">Prompt</label>
       <LetterPicker title="Prompt" bind:value={$promptColumn} />
-    </div>
-    <div>
-      <label for="Answer-letter">Answer</label>
       <LetterPicker title="Answer" bind:value={$correctColumn} />
     </div>
+    <div class="sub">
+      <div>
+        <OptionnalLetterPicker
+          title="Comptency"
+          bind:value={$competencyColumn}
+        />
+      </div>
+      <div>
+        <OptionnalLetterPicker
+          title="Dimension"
+          bind:value={$dimensionColumn}
+        />
+      </div>
+      <div>
+        <OptionnalLetterPicker
+          title="Indicator"
+          bind:value={$indicatorColumn}
+        />
+      </div>
+    </div>
   </fieldset>
-
-  <Fieldset title="Optionnal">
-    <OptionnalFieldset title="Comptency">
-      <LetterPicker title="Comptency" bind:value={$competencyColumn} />
-    </OptionnalFieldset>
-    <OptionnalFieldset title="Dimension">
-      <LetterPicker title="Dimension" bind:value={$competencyColumn} />
-    </OptionnalFieldset>
-    <OptionnalFieldset title="Comptency">
-      <LetterPicker title="Comptency" bind:value={$competencyColumn} />
-    </OptionnalFieldset>
-  </Fieldset>
-
   <div class="bottom">
     <Download />
     <DropZone />
@@ -109,24 +112,26 @@
   .columnPicker {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 8px;
-    width: fit-content;
     font-weight: bold;
     border-radius: 12px;
     border: 3px solid #00566b;
     color: #00566b;
     padding-top: 0;
   }
-  .columnPicker legend,
-  .columnPicker label {
-    color: #457e8b;
-    font-size: 13px;
-  }
   .columnPicker > div {
     gap: 3px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+  }
+  .columnPicker .sub {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
   }
   .menu {
     z-index: 1;
@@ -139,6 +144,7 @@
     flex-direction: column;
     height: 85vh;
     width: fit-content;
+    max-width: 400px;
   }
   .choiceSelection {
     display: flex;
