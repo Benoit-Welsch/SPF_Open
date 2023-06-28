@@ -84,7 +84,7 @@
     <div class="sub">
       <div>
         <OptionnalLetterPicker
-          title="Comptency"
+          title="Competency"
           bind:value={$competencyColumn}
         />
       </div>

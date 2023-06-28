@@ -34,14 +34,21 @@ export class Question {
   id: Txt;
   prompt: Txt;
 
-  constructor({ id, prompt }: Question) {
+  competency?: Txt;
+  dimension?: Txt;
+  indicator?: Txt;
+
+  constructor({ id, prompt, competency, dimension, indicator }: Question) {
     this.id = new Txt(id);
     this.prompt = new Txt(prompt);
+    if (competency) this.competency = new Txt(competency);
+    if (dimension) this.dimension = new Txt(dimension);
+    if (indicator) this.indicator = new Txt(indicator);
   }
 
   static parseSheet(
     sheet,
-    column: { title: string; prompt: string; correct: string },
+    column: { title: string; prompt: string; correct: string, competency: string, dimension: string, indicator: string },
     row: { offset: number }
   ) {
     let currentRow = row.offset;
@@ -53,6 +60,9 @@ export class Question {
         currentQuestion = new QCM({
           id: sheet[column.title + currentRow],
           prompt: sheet[column.prompt + currentRow],
+          competency: column.competency ? sheet[column.competency + currentRow] : undefined,
+          dimension: column.dimension ? sheet[column.dimension + currentRow] : undefined,
+          indicator: column.indicator ? sheet[column.indicator + currentRow] : undefined,
         });
         questions.push(currentQuestion);
       } else {
@@ -81,12 +91,14 @@ export class QCM extends Question {
     id,
     prompt,
     answers,
+    competency, dimension, indicator
   }: {
     id: Txt;
     prompt: Txt;
     answers?: Answer[];
+    competency?: Txt, dimension?: Txt, indicator?: Txt
   }) {
-    super({ id: new Txt(id), prompt: new Txt(prompt) });
+    super({ id: new Txt(id), prompt: new Txt(prompt), competency, dimension, indicator });
     this.answers = answers ? answers : [];
   }
 
