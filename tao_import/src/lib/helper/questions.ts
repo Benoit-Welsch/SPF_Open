@@ -52,6 +52,16 @@ export const exportToCSV = (questions: QCM[], { lang }: { lang: string }) => {
     csv.addSequentially(
       "choice_" + (question.answers.findIndex((q) => q.correct) + 1)
     );
+
+    csv.addSequentially(
+      question.dimension ? question.dimension.v : ""
+    )
+    csv.addSequentially(
+      question.competency ? question.competency.v : ""
+    )
+    csv.addSequentially(
+      question.indicator ? question.indicator.v : ""
+    )
   });
 
   return csv.toStringEncoded();

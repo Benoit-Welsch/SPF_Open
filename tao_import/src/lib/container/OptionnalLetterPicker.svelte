@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import LetterPicker from "../Input/LetterPicker.svelte";
 
   export let title = "";
@@ -7,6 +8,10 @@
 
   let oldValue = value;
   let disable = !checked;
+
+  onMount(() => {
+    onChange();
+  });
 
   const onChange = () => {
     if (!oldValue) oldValue = value;

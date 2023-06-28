@@ -55,14 +55,25 @@ export class Question {
     let questions: QCM[] = [];
     let currentQuestion: QCM;
 
+
+    let previousDataInfo = {
+      competency: undefined,
+      dimension: undefined,
+      indicator: undefined,
+    }
+
     while (sheet[column.prompt + currentRow]) {
       if ((currentRow - row.offset) % 5 == 0 || currentRow == row.offset) {
+        if (column.competency) previousDataInfo.competency = sheet[column.competency + currentRow] ? sheet[column.competency + currentRow] : previousDataInfo.competency;
+        if (column.dimension) previousDataInfo.dimension = sheet[column.dimension + currentRow] ? sheet[column.dimension + currentRow] : previousDataInfo.dimension;
+        if (column.indicator) previousDataInfo.indicator = sheet[column.indicator + currentRow] ? sheet[column.indicator + currentRow] : previousDataInfo.indicator;
+
         currentQuestion = new QCM({
           id: sheet[column.title + currentRow],
           prompt: sheet[column.prompt + currentRow],
-          competency: column.competency ? sheet[column.competency + currentRow] : undefined,
-          dimension: column.dimension ? sheet[column.dimension + currentRow] : undefined,
-          indicator: column.indicator ? sheet[column.indicator + currentRow] : undefined,
+          competency: previousDataInfo.competency,
+          dimension: previousDataInfo.dimension,
+          indicator: previousDataInfo.indicator,
         });
         questions.push(currentQuestion);
       } else {

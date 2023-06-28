@@ -5,6 +5,7 @@
   export let disable = false;
 
   let index = 0;
+  let previousValue = "";
 
   const alpha = Array.from(Array(26)).map((_, i) => i + 65);
   const alphabet = alpha.map((x) => String.fromCharCode(x));
