@@ -12,6 +12,9 @@
     correctColumn,
     langOutput,
     rowOffset,
+    competencyColumn,
+    dimensionColumn,
+    indicatorColumn,
   } from "../helper/store";
   import { Question } from "../helper/question";
 
@@ -25,6 +28,9 @@
         title: get(titleColumn),
         prompt: get(promptColumn),
         correct: get(correctColumn),
+        competency: get(competencyColumn),
+        dimension: get(dimensionColumn),
+        indicator: get(indicatorColumn),
       },
       { offset: get(rowOffset) }
     );

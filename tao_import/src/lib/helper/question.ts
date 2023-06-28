@@ -34,25 +34,46 @@ export class Question {
   id: Txt;
   prompt: Txt;
 
-  constructor({ id, prompt }: Question) {
+  competency?: Txt;
+  dimension?: Txt;
+  indicator?: Txt;
+
+  constructor({ id, prompt, competency, dimension, indicator }: Question) {
     this.id = new Txt(id);
     this.prompt = new Txt(prompt);
+    if (competency) this.competency = new Txt(competency);
+    if (dimension) this.dimension = new Txt(dimension);
+    if (indicator) this.indicator = new Txt(indicator);
   }
 
   static parseSheet(
     sheet,
-    column: { title: string; prompt: string; correct: string },
+    column: { title: string; prompt: string; correct: string, competency: string, dimension: string, indicator: string },
     row: { offset: number }
   ) {
     let currentRow = row.offset;
     let questions: QCM[] = [];
     let currentQuestion: QCM;
 
+
+    let previousDataInfo = {
+      competency: undefined,
+      dimension: undefined,
+      indicator: undefined,
+    }
+
     while (sheet[column.prompt + currentRow]) {
       if ((currentRow - row.offset) % 5 == 0 || currentRow == row.offset) {
+        if (column.competency) previousDataInfo.competency = sheet[column.competency + currentRow] ? sheet[column.competency + currentRow] : previousDataInfo.competency;
+        if (column.dimension) previousDataInfo.dimension = sheet[column.dimension + currentRow] ? sheet[column.dimension + currentRow] : previousDataInfo.dimension;
+        if (column.indicator) previousDataInfo.indicator = sheet[column.indicator + currentRow] ? sheet[column.indicator + currentRow] : previousDataInfo.indicator;
+
         currentQuestion = new QCM({
           id: sheet[column.title + currentRow],
           prompt: sheet[column.prompt + currentRow],
+          competency: previousDataInfo.competency,
+          dimension: previousDataInfo.dimension,
+          indicator: previousDataInfo.indicator,
         });
         questions.push(currentQuestion);
       } else {
@@ -81,12 +102,14 @@ export class QCM extends Question {
     id,
     prompt,
     answers,
+    competency, dimension, indicator
   }: {
     id: Txt;
     prompt: Txt;
     answers?: Answer[];
+    competency?: Txt, dimension?: Txt, indicator?: Txt
   }) {
-    super({ id: new Txt(id), prompt: new Txt(prompt) });
+    super({ id: new Txt(id), prompt: new Txt(prompt), competency, dimension, indicator });
     this.answers = answers ? answers : [];
   }
 

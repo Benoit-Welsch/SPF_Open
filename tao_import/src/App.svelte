@@ -5,16 +5,18 @@
   import PreviewTao from "./lib/preview/PreviewTAO.svelte";
   import {
     column_row,
+    competencyColumn,
     correctColumn,
     currentSheet,
+    dimensionColumn,
     file,
     hideAnswer,
+    indicatorColumn,
     promptColumn,
     rowOffset,
     titleColumn,
   } from "./lib/helper/store";
   import { Question } from "./lib/helper/question";
-  import PreviewTable from "./lib/preview/PreviewTable.svelte";
 
   let questions = [];
   let workbook;
@@ -28,6 +30,9 @@
           title: get(titleColumn),
           prompt: get(promptColumn),
           correct: get(correctColumn),
+          competency: get(competencyColumn),
+          dimension: get(dimensionColumn),
+          indicator: get(indicatorColumn),
         },
         { offset: get(rowOffset) }
       );
