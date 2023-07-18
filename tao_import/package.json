@@ -11,18 +11,18 @@
     "lint": "prettier --write src/**/*.ts"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.4.1",
+    "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "@tsconfig/svelte": "^3.0.0",
     "prettier": "^2.8.8",
-    "svelte": "^3.59.1",
+    "svelte": "^3.59.2",
     "svelte-atoms": "^0.0.27",
     "svelte-check": "^2.10.3",
-    "tslib": "^2.5.3",
+    "tslib": "^2.6.0",
     "typescript": "^4.9.5",
-    "vite": "^4.3.9"
+    "vite": "^4.4.4"
   },
   "dependencies": {
-    "@zip.js/zip.js": "^2.7.16",
+    "@zip.js/zip.js": "^2.7.20",
     "xlsx": "^0.18.5",
     "xmlbuilder2": "^3.1.1"
   }
