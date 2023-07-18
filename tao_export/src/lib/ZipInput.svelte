@@ -15,7 +15,7 @@
   let hideAnswer = false;
   let showInstruction = false;
   let showLetter = false;
-  let heightInPx = 0;
+  let clientHeight;
 
   let files: FileList;
   let assets: zipObj[];
@@ -66,7 +66,7 @@
       html2canvas: { dpi: 1200 },
       jsPDF: {
         unit: "px",
-        format: [Math.min(heightInPx / 3, 14400), 1000],
+        format: [Math.min(clientHeight / 3, 14400), 1000],
       },
     });
   };
@@ -81,8 +81,8 @@
 <button class="hide-print" on:click|preventDefault={() => window.print()}
   >Get PDF</button
 >
-<button class="hide-print" on:click|preventDefault={makePdfOnClick}
-  >Get long PDF (not recommended for printing)</button
+<button class="hide-print" on:click|preventDefault={makePdfOnClick} disabled
+  >Get long PDF (broken)</button
 >
 {#if questions.length > 0}
   <div class="nb-questions hide-print">
@@ -93,10 +93,10 @@
       QCM : {questions.filter((q) => q.type === "QCM").length}
     </span>
   </div>
-  <div bind:this={HtmlTAOPDF} bind:clientHeight={heightInPx}>
+  <div bind:this={HtmlTAOPDF}>
     {#each questions as question}
       {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
-        <Question {question} bind:hideAnswer bind:showLetter/>
+        <Question {question} bind:hideAnswer bind:showLetter />
       {/if}
     {/each}
   </div>
