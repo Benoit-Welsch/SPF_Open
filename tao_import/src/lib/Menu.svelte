@@ -4,10 +4,7 @@
   import LetterPicker from "./Input/LetterPicker.svelte";
   import NumberPicker from "./Input/NumberPicker.svelte";
   import RadioInput from "./Input/RadioInput.svelte";
-  import Fieldset from "./container/Fieldset.svelte";
   import OptionnalLetterPicker from "./container/OptionnalLetterPicker.svelte";
-  import OptionnalFieldset from "./container/OptionnalLetterPicker.svelte";
-  import Optionnal from "./container/OptionnalLetterPicker.svelte";
   import {
     currentSheet,
     selectedFormat,
