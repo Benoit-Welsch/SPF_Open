@@ -9,16 +9,11 @@
     currentSheet,
     selectedFormat,
     hideAnswer,
-    titleColumn,
-    promptColumn,
-    correctColumn,
     workbook,
     langOutput,
     rowOffset,
-    competencyColumn,
-    dimensionColumn,
-    indicatorColumn,
   } from "./helper/store";
+  import Column from "./menu/Column.svelte";
   let sheet: { txt: string; selected: boolean }[];
 
   workbook.subscribe((workbook) => {
@@ -70,35 +65,7 @@
     />
     <NumberPicker title="Row offset" bind:value={$rowOffset} />
   </div>
-
-  <fieldset class="columnPicker">
-    <legend>Column</legend>
-    <div class="sub">
-      <LetterPicker title="Title" bind:value={$titleColumn} />
-      <LetterPicker title="Prompt" bind:value={$promptColumn} />
-      <LetterPicker title="Answer" bind:value={$correctColumn} />
-    </div>
-    <div class="sub">
-      <div>
-        <OptionnalLetterPicker
-          title="Competency"
-          bind:value={$competencyColumn}
-        />
-      </div>
-      <div>
-        <OptionnalLetterPicker
-          title="Dimension"
-          bind:value={$dimensionColumn}
-        />
-      </div>
-      <div>
-        <OptionnalLetterPicker
-          title="Indicator"
-          bind:value={$indicatorColumn}
-        />
-      </div>
-    </div>
-  </fieldset>
+  <Column />
   <div class="bottom">
     <Download />
     <DropZone />
@@ -106,30 +73,6 @@
 </div>
 
 <style>
-  .columnPicker {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    font-weight: bold;
-    border-radius: 12px;
-    border: 3px solid #00566b;
-    color: #00566b;
-    padding-top: 0;
-  }
-  .columnPicker > div {
-    gap: 3px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .columnPicker .sub {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-evenly;
-  }
   .menu {
     z-index: 1;
     background-color: white;
