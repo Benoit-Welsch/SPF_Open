@@ -2,32 +2,22 @@
   import { onMount } from "svelte";
   import LetterPicker from "../Input/LetterPicker.svelte";
 
-  export let title = "";
-  export let checked = false;
-  export let value;
-
-  let oldValue = value;
-  let disable = !checked;
+  export let disable = false;
+  export let value = "";
 
   onMount(() => {
     onChange();
   });
 
   const onChange = () => {
-    if (!oldValue) oldValue = value;
-    disable = !checked;
-    if (checked) value = oldValue;
-    else {
-      oldValue = value;
-      value = undefined;
-    }
+    disable = !disable;
+    value = ""
   };
 </script>
 
 <div>
-  <label for="">{title}</label>
   <div class="input">
-    <input type="checkbox" bind:checked on:change={() => onChange()} />
+    <input type="checkbox" on:change={() => onChange()} />
     <LetterPicker bind:value bind:disable />
   </div>
 </div>
@@ -37,6 +27,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    gap: 10px;
   }
   input {
     margin: 0;
