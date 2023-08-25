@@ -2,6 +2,80 @@
 
 A set of tool and web app to automate my work at SPF Finances.
 
+## 🗺️ RoadMap
+
+- QTI (0%)
+  - [] Prompt
+    - [] Parsing
+    - [] Encoding
+  - [] Answer
+    - [] Parsing
+    - [] Encoding
+  - [] Point
+    - [] Parsing
+    - [] Encoding
+  - [] Shuffle
+    - [] Parsing
+    - [] Encoding
+  - [] Time
+    - [] Parsing
+    - [] Encoding
+  - [] Compenty/Dimension/Indicator
+    - [] Parsing
+    - [] Encoding
+  - [] Image
+    - [] Parsing
+    - [] Encoding
+- [] CSV
+  - [] Prompt
+    - [] Parsing
+    - [] Encoding
+  - [] Answer
+    - [] Parsing
+    - [] Encoding
+  - [] Point
+    - [] Parsing
+    - [] Encoding
+  - [] Shuffle *
+    - [] Parsing *
+    - [] Encoding *
+  - [] Time *
+    - [] Parsing *
+    - [] Encoding *
+  - [] Compenty/Dimension/Indicator
+    - [] Parsing *
+    - [] Encoding
+  - [] Image
+    - [] Parsing
+    - [] Encoding
+- [] PDF
+  - [] Prompt
+  - [] Answer
+  - [] Point
+  - [] Shuffle *
+  - [] Time *
+  - [] Compenty/Dimension/Indicator *
+  - [] Image
+  
+- [] Word *
+  - [] Prompt *
+  - [] Answer *
+  - [] Point *
+  - [] Shuffle *
+  - [] Time *
+  - [] Compenty/Dimension/Indicator *
+  - [] Image *
+- [] PowerPoint *
+  - [] Prompt *
+  - [] Answer *
+  - [] Point *
+  - [] Shuffle *
+  - [] Time *
+  - [] Compenty/Dimension/Indicator *
+  - [] Image *
+
+#### "*" -> features with low priority
+
 ## TAO-Export
 
 Parse QTI package from TAO and export them to PDF.
