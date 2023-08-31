@@ -7,7 +7,11 @@ A set of tool and web app to automate my work at SPF Finances.
 - QTI (0%)
   - [] Batch
     - [] Parsing
-    - [] Preview 
+    - [] Preview
+  - Type
+    - [] QO
+    - [] QCM
+    - ... 
   - [] Prompt
     - [] Parsing
     - [] Encoding
