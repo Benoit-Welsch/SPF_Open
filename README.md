@@ -5,6 +5,9 @@ A set of tool and web app to automate my work at SPF Finances.
 ## 🗺️ RoadMap
 
 - QTI (0%)
+  - [] Batch
+    - [] Parsing
+    - [] Preview 
   - [] Prompt
     - [] Parsing
     - [] Encoding
