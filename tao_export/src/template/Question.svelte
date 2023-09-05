@@ -6,7 +6,6 @@
   let questionDom;
   export let hideAnswer = false;
   export let showLetter = true;
-
 </script>
 
 <div
@@ -18,8 +17,11 @@
   <div
     class={`prompt ${question.type.includes("Instruction") ? "grid-row" : ""}`}
   >
-    {#each question.prompt as prompt}
+    {#each question.prompt as prompt, i}
       {@html prompt.innerHTML}
+    {/each}
+    {#each question.maxLenght as maxLenght}
+     <p> {maxLenght} </p>
     {/each}
   </div>
 

@@ -68,14 +68,15 @@ export const readAndParseXml = async (xml: zipObj, assets: zipObj[]) => {
 export type QuestionType = {
   title: string;
   type:
-    | "QCM"
-    | "QO"
-    | "Instruction"
-    | "Instruction QCM"
-    | "Instruction QO"
-    | "unknown";
+  | "QCM"
+  | "QO"
+  | "Instruction"
+  | "Instruction QCM"
+  | "Instruction QO"
+  | "unknown";
   prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
+  maxLenght?: string;
 };
 
 export const xmlToObj = (xml: zipObj): QuestionType => {
@@ -111,6 +112,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
   let answers;
   let prompt;
   let type;
+  let maxLenght = undefined;
 
   let inner = Array.from(xDoc.getElementsByTagName("itemBody"))[0];
 
@@ -130,6 +132,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     }
     answers = [];
     prompt = [inner];
+    maxLenght = Array.from(xDoc.getElementsByTagName("extendedTextInteraction")).map(i => i.getAttribute('patternMask')).map(i => i.split(',')[1].split("}")[0])
   } else {
     if (
       !!["Voorbeeld", "Exemple"].find((t) =>
@@ -179,6 +182,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     type,
     prompt,
     answers,
+    maxLenght
   };
   //console.log(title, question);
 };
