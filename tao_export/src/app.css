@@ -48,7 +48,7 @@ body {
   header {
     display: none !important;
   }
-  .hide-print {
+  .hide-print, .hidePrint {
     display: none !important;
   }
 }

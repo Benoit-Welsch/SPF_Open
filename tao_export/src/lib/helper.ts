@@ -77,6 +77,7 @@ export type QuestionType = {
   prompt: Element[];
   answers: { txt: string; point: string; id: string; correct: boolean }[];
   maxLenght?: string;
+  show: boolean
 };
 
 export const xmlToObj = (xml: zipObj): QuestionType => {
@@ -106,6 +107,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
       type: "Instruction",
       prompt: Array.from(xDoc.getElementsByClassName("grid-row")),
       answers: [],
+      show: true
     };
   }
 
@@ -182,7 +184,8 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     type,
     prompt,
     answers,
-    maxLenght
+    maxLenght,
+    show: true
   };
   //console.log(title, question);
 };

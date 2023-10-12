@@ -11,18 +11,28 @@
 <div
   class="question"
   bind:this={questionDom}
+  class:hidePrint={!question.show}
   style="page-break-inside: avoid !important; break-inside: avoid;"
 >
-  <div class="title">{question.title}</div>
+  <div class="title">
+    <input
+      class="hide-print"
+      type="checkbox"
+      bind:checked={question.show}
+
+    />{question.title}
+  </div>
   <div
     class={`prompt ${question.type.includes("Instruction") ? "grid-row" : ""}`}
   >
     {#each question.prompt as prompt, i}
       {@html prompt.innerHTML}
     {/each}
-    {#each question.maxLenght as maxLenght}
-     <p> {maxLenght} </p>
-    {/each}
+    {#if question.maxLenght}
+      {#each question.maxLenght as maxLenght}
+        <p>{maxLenght}</p>
+      {/each}
+    {/if}
   </div>
 
   {#if question.type === "QCM" || question.type === "Instruction QCM"}
