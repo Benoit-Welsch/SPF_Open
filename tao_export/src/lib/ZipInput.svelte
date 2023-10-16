@@ -11,6 +11,7 @@
     type zipObj,
   } from "./helper";
   import Settings from "./Settings.svelte";
+    import Tables from "./Tables.svelte";
 
   let hideAnswer = false;
   let showInstruction = false;
@@ -78,6 +79,7 @@
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 <Settings bind:hideAnswer bind:showInstruction bind:showLetter />
+<Tables bind:questions/>
 <button class="hide-print" on:click|preventDefault={() => window.print()}
   >Get PDF</button
 >
