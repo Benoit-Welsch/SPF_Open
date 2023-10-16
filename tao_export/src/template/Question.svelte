@@ -8,51 +8,56 @@
   export let showLetter = true;
 </script>
 
-<div
-  class="question"
-  bind:this={questionDom}
-  class:hidePrint={!question.show}
-  style="page-break-inside: avoid !important; break-inside: avoid;"
->
-  <div class="title">
-    <input
-      class="hide-print"
-      type="checkbox"
-      bind:checked={question.show}
-
-    />{question.title}
-  </div>
+{#if question.show}
   <div
-    class={`prompt ${question.type.includes("Instruction") ? "grid-row" : ""}`}
+    class="question"
+    bind:this={questionDom}
+    class:hidePrint={!question.show}
+    style="page-break-inside: avoid !important; break-inside: avoid;"
   >
-    {#each question.prompt as prompt, i}
-      {@html prompt.innerHTML}
-    {/each}
-    {#if question.maxLenght}
-      {#each question.maxLenght as maxLenght}
-        <p>{maxLenght}</p>
+    <div class="title">
+      <input
+        class="hide-print"
+        type="checkbox"
+        bind:checked={question.show}
+      />{question.title}
+    </div>
+    <div
+      class={`prompt ${
+        question.type.includes("Instruction") ? "grid-row" : ""
+      }`}
+    >
+      {#each question.prompt as prompt, i}
+        {@html prompt.innerHTML}
       {/each}
+      {#if question.maxLenght}
+        {#each question.maxLenght as maxLenght}
+          <p>{maxLenght}</p>
+        {/each}
+      {/if}
+    </div>
+
+    {#if question.type === "QCM" || question.type === "Instruction QCM"}
+      <ul
+        class="answers"
+        style={showLetter
+          ? "--answerStyle:upper-alpha; --answerCorrectStyle:upper-alpha;"
+          : "--answerStyle:circle; --answerCorrectStyle:disc;"}
+      >
+        {#each question.answers as answer}
+          <li
+            class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}
+          >
+            <div class="text">{@html answer.txt}</div>
+            {#if !hideAnswer}
+              <div class="points">{answer.point || 0}</div>
+            {/if}
+          </li>
+        {/each}
+      </ul>
     {/if}
   </div>
-
-  {#if question.type === "QCM" || question.type === "Instruction QCM"}
-    <ul
-      class="answers"
-      style={showLetter
-        ? "--answerStyle:upper-alpha; --answerCorrectStyle:upper-alpha;"
-        : "--answerStyle:circle; --answerCorrectStyle:disc;"}
-    >
-      {#each question.answers as answer}
-        <li class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}>
-          <div class="text">{@html answer.txt}</div>
-          {#if !hideAnswer}
-            <div class="points">{answer.point || 0}</div>
-          {/if}
-        </li>
-      {/each}
-    </ul>
-  {/if}
-</div>
+{/if}
 
 <style>
   @media print {

@@ -23,7 +23,7 @@
   let questions: QuestionType[] = [];
   let title = "Tao-PDF exporter";
 
-  let HtmlTAOPDF;
+  let Html;
 
   $: if (files) {
     const init = async () => {
@@ -62,7 +62,7 @@
   }
 
   const makePdfOnClick = () => {
-    html2pdf(HtmlTAOPDF, {
+    html2pdf(Html, {
       filename: title + " - Export TAO",
       html2canvas: { dpi: 1200 },
       jsPDF: {
@@ -95,10 +95,10 @@
       QCM : {questions.filter((q) => q.type === "QCM").length}
     </span>
   </div>
-  <div bind:this={HtmlTAOPDF}>
+  <div bind:this={Html}>
     {#each questions as question}
       {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
-        <Question {question} bind:hideAnswer bind:showLetter />
+        <Question bind:question bind:hideAnswer bind:showLetter />
       {/if}
     {/each}
   </div>
