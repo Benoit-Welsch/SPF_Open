@@ -11,7 +11,7 @@
     type zipObj,
   } from "./helper";
   import Settings from "./Settings.svelte";
-    import Tables from "./Tables.svelte";
+  import Tables from "./Tables.svelte";
 
   let hideAnswer = false;
   let showInstruction = false;
@@ -62,12 +62,19 @@
   }
 
   const makePdfOnClick = () => {
+    clientHeight = document.body.clientHeight;
     html2pdf(Html, {
       filename: title + " - Export TAO",
-      html2canvas: { dpi: 1200 },
+      html2canvas: {
+        scale: 1,
+        letterRendering: true,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+      },
       jsPDF: {
         unit: "px",
-        format: [Math.min(clientHeight / 3, 14400), 1000],
+        format: [Math.min(clientHeight / 2, 14400 - 1), 1000],
       },
     });
   };
@@ -79,11 +86,11 @@
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
 <Settings bind:hideAnswer bind:showInstruction bind:showLetter />
-<Tables bind:questions/>
+<Tables bind:questions />
 <button class="hide-print" on:click|preventDefault={() => window.print()}
   >Get PDF</button
 >
-<button class="hide-print" on:click|preventDefault={makePdfOnClick} disabled
+<button class="hide-print" on:click|preventDefault={makePdfOnClick}
   >Get long PDF (broken)</button
 >
 {#if questions.length > 0}
