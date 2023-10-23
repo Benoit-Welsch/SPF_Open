@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { get } from "svelte/store";
   import { BlobReader, ZipWriter, BlobWriter } from "@zip.js/zip.js";
   import { exportToCSV, exportToQTI } from "../helper/questions";
   import {
@@ -21,36 +20,38 @@
   let linkFile: HTMLAnchorElement;
 
   const onClick = () => {
-    const fileName = get(name);
+    const fileName = $name;
     const sheet = Question.parseSheet(
-      get(workbook).Sheets[get(currentSheet)],
+      $workbook.Sheets[$currentSheet],
       {
-        title: get(titleColumn),
-        prompt: get(promptColumn),
-        correct: get(correctColumn),
-        competency: get(competencyColumn),
-        dimension: get(dimensionColumn),
-        indicator: get(indicatorColumn),
+        title: $titleColumn,
+        prompt: $promptColumn,
+        correct: $correctColumn,
+        competency: $competencyColumn,
+        dimension: $dimensionColumn,
+        indicator: $indicatorColumn,
       },
-      { offset: get(rowOffset) }
+      { offset: $rowOffset }
     );
-    switch (get(selectedFormat).toLocaleLowerCase()) {
+    switch ($selectedFormat.toLocaleLowerCase()) {
       case "csv":
-        const CSVString = exportToCSV(sheet, { lang: get(langOutput) });
+        const CSVString = exportToCSV(sheet, { lang: $langOutput});
 
         const blob = new Blob([CSVString], { type: "text/csv;charset=utf-8," });
         const objUrl = URL.createObjectURL(blob);
 
         linkFile.href = objUrl;
-        linkFile.download = fileName;
+        console.log(fileName)
+        linkFile.download = fileName + " - " + $langOutput;
         linkFile.click();
         break;
       case "pdf":
         window.print();
         break;
       case "qti":
+        const lang = $langOutput;
         const { manifest, questionsManifest } = exportToQTI(sheet, {
-          lang: get(langOutput),
+          lang,
         });
 
         const manifestBlob = new Blob([manifest.toString()], {
