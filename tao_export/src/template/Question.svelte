@@ -32,7 +32,7 @@
       {/each}
       {#if question.maxLenght}
         {#each question.maxLenght as maxLenght}
-          <p>{maxLenght}</p>
+          <p>{maxLenght} caractères maximum.</p>
         {/each}
       {/if}
     </div>

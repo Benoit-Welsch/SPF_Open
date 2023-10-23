@@ -5,6 +5,7 @@
 <header>
   <div class="copy">&copy;Benoit-Welsch - 02-2023</div>
   <div class="doc"><a href="/documentation.pdf">Documentation</a></div>
+  <div class="version">{PKG.version}</div>
 </header>
 <main><ZipInput /></main>
 
