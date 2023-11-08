@@ -1,7 +1,8 @@
 <script lang="ts">
-  export let hideAnswer = true;
-  export let showInstruction = false;
+  export let hideAnswer = false;
+  export let showInstruction = true;
   export let showLetter = false;
+
 </script>
 
 <fieldset class="hide-print">
@@ -66,3 +67,8 @@
   />
   <label for="show-letter">Hide</label>
 </fieldset>
+
+
+<style>
+  
+</style>

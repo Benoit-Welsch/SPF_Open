@@ -1,8 +1,6 @@
 <script lang="ts">
   import { ZipReader } from "@zip.js/zip.js";
-  import html2pdf from "html2pdf.js";
 
-  import Question from "../template/Question.svelte";
   import {
     entryToObj,
     readAndParseXml,
@@ -10,20 +8,12 @@
     type QuestionType,
     type zipObj,
   } from "./helper";
-  import Settings from "./Settings.svelte";
-  import Tables from "./Tables.svelte";
 
-  let hideAnswer = false;
-  let showInstruction = false;
-  let showLetter = false;
-  let clientHeight;
+  export let questions: QuestionType[];
 
   let files: FileList;
   let assets: zipObj[];
-  let questions: QuestionType[] = [];
   let title = "Tao-PDF exporter";
-
-  let Html;
 
   $: if (files) {
     const init = async () => {
@@ -60,24 +50,6 @@
     };
     init(); // Work around to use async/await
   }
-
-  const makePdfOnClick = () => {
-    clientHeight = document.body.clientHeight;
-    html2pdf(Html, {
-      filename: title + " - Export TAO",
-      html2canvas: {
-        scale: 1,
-        letterRendering: true,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: -window.scrollY,
-      },
-      jsPDF: {
-        unit: "px",
-        format: [Math.min(clientHeight / 2, 14400 - 1), 1000],
-      },
-    });
-  };
 </script>
 
 <svelte:head>
@@ -85,31 +57,7 @@
 </svelte:head>
 
 <input type="file" name="zip" id="zip" accept=".zip" bind:files />
-<Settings bind:hideAnswer bind:showInstruction bind:showLetter />
-<Tables bind:questions />
 <button class="hide-print" on:click|preventDefault={() => window.print()}
   >Get PDF</button
 >
-<button class="hide-print" on:click|preventDefault={makePdfOnClick}
-  >Get long PDF (broken)</button
->
-{#if questions.length > 0}
-  <div class="nb-questions hide-print">
-    <span class="QO"
-      >QO : {questions.filter((q) => q.type === "QO").length}</span
-    >
-    <span class="QCM">
-      QCM : {questions.filter((q) => q.type === "QCM").length}
-    </span>
-  </div>
-  <div bind:this={Html}>
-    {#each questions as question}
-      {#if (question.type !== "unknown" && question.type !== "Instruction" && question.type !== "Instruction QCM" && question.type !== "Instruction QO") || ((question.type === "Instruction" || question.type === "Instruction QCM" || question.type === "Instruction QO") && showInstruction)}
-        <Question bind:question bind:hideAnswer bind:showLetter />
-      {/if}
-    {/each}
-  </div>
-{/if}
-
-<style>
-</style>
+<button class="hide-print" disabled>Get long PDF (broken)</button>

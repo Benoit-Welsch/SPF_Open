@@ -77,7 +77,7 @@
     font-family: "Source Sans Pro";
     border: 3px solid #007f9f;
     margin: 30px 10px;
-    max-width: 1000px;
+    max-width: 1080px;
     line-height: 1.4;
     font-size: 13px;
   }
