@@ -1,16 +1,27 @@
 <script lang="ts">
   import { writable } from "svelte/store";
+  import { slide } from "svelte/transition";
   import Settings from "./lib/Settings.svelte";
   import Tables from "./lib/Tables.svelte";
   import ZipInput from "./lib/ZipInput.svelte";
   import type { QuestionType } from "./lib/helper";
   import Question from "./template/Question.svelte";
 
+  let showLeft = true;
+
   let hideAnswer;
   let showInstruction = writable(true);
   let showLetter;
+  let compare;
 
   let questions: QuestionType[] = [];
+  let oldQuestions = questions;
+
+  const copyQuestion = () => {
+    oldQuestions = [...questions];
+  };
+
+  $: if (compare) copyQuestion();
 
   showInstruction.subscribe((showInstruction) => {
     questions = questions.map((q) => ({
@@ -33,30 +44,42 @@
 </header>
 
 <main>
-  <div class="left">
-    <div class="settings">
-      <Settings
-        bind:hideAnswer
-        bind:showInstruction={$showInstruction}
-        bind:showLetter
-      />
+  <button class="controlLeft" on:click={() => (showLeft = !showLeft)}>></button>
+  {#if showLeft}
+    <div class="left" transition:slide>
+      <div class="settings">
+        <Settings
+          bind:hideAnswer
+          bind:showInstruction={$showInstruction}
+          bind:showLetter
+          bind:compare
+        />
+      </div>
+      <div class="input">
+        <ZipInput bind:questions />
+      </div>
+      <div class="nb-questions hide-print">
+        <span class="QO"
+          >QO : {questions.filter((q) => q.type === "QO").length}</span
+        >
+        <span class="QCM">
+          QCM : {questions.filter((q) => q.type === "QCM").length}
+        </span>
+      </div>
+      <Tables bind:questions />
     </div>
-    <div class="input">
-      <ZipInput bind:questions />
-    </div>
-    <div class="nb-questions hide-print">
-      <span class="QO"
-        >QO : {questions.filter((q) => q.type === "QO").length}</span
-      >
-      <span class="QCM">
-        QCM : {questions.filter((q) => q.type === "QCM").length}
-      </span>
-    </div>
-    <Tables bind:questions />
-  </div>
+  {/if}
+
   <div class="questions">
     {#if questions.length > 0}
       {#each questions as question}
+        <Question bind:question bind:hideAnswer bind:showLetter />
+      {/each}
+    {/if}
+  </div>
+  <div class="questions">
+    {#if oldQuestions.length > 0 && compare}
+      {#each oldQuestions as question}
         <Question bind:question bind:hideAnswer bind:showLetter />
       {/each}
     {/if}
@@ -78,6 +101,11 @@
     grid-gap: 10px;
     grid-auto-flow: column;
     padding: 10px;
+  }
+
+  .controlLeft {
+    position: absolute;
+    top: 0;
   }
 
   .input {

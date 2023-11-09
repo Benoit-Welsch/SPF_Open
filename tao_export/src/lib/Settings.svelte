@@ -2,7 +2,8 @@
   export let hideAnswer = false;
   export let showInstruction = true;
   export let showLetter = false;
-
+  export let compare = false;
+  
 </script>
 
 <fieldset class="hide-print">
@@ -68,7 +69,26 @@
   <label for="show-letter">Hide</label>
 </fieldset>
 
+<fieldset class="hide-print">
+  <legend>Compare test</legend>
+  <input
+    type="radio"
+    id="compare"
+    checked
+    value={true}
+    name="Compare"
+    bind:group={compare}
+  />
+  <label for="hide-letter">Show</label>
+  <input
+    type="radio"
+    id="compare"
+    value={false}
+    name="Compare"
+    bind:group={compare}
+  />
+  <label for="show-letter">Hide</label>
+</fieldset>
 
 <style>
-  
 </style>
