@@ -1,11 +1,11 @@
 ## Changelog
 
-### 1.0.3
+### 0.1.3
 
 - Feat : Comapre two tests side by side
 - Feat : Hide left menu
 
-### 1.0.2
+### 0.1.2
 
 - Feat : Max length of the open question is now showed
 - Feat : Show/Hide question

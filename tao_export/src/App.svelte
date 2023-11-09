@@ -38,9 +38,17 @@
 
 <header>
   <div class="copy">&copy;Benoit-Welsch - 02-2023</div>
-  <div class="doc"><a href="/documentation.pdf">Documentation</a></div>
+  <div class="doc">
+    <a href="/documentation.pdf" target="_blank">Documentation</a>
+  </div>
   <!-- svelte-ignore missing-declaration -->
   <div class="version">v{PKG.version}</div>
+  <div>
+    <a
+      href="https://github.com/Benoit-Welsch/SPF_Open/blob/Prod/tao_export/CHANGELOG.md"
+      target="_blank">CHANGELOG</a
+    >
+  </div>
 </header>
 
 <main>
