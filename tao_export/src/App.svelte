@@ -52,7 +52,7 @@
 </header>
 
 <main>
-  <button class="controlLeft" on:click={() => (showLeft = !showLeft)}>></button>
+  <button class="controlLeft hide-print" on:click={() => (showLeft = !showLeft)}>></button>
   {#if showLeft}
     <div class="left" transition:slide>
       <div class="settings">
