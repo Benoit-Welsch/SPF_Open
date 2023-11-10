@@ -3,6 +3,7 @@
   export let showInstruction = true;
   export let showLetter = false;
   export let compare = false;
+  export let inzage = false;
   
 </script>
 
@@ -90,5 +91,30 @@
   <label for="show-letter">Hide</label>
 </fieldset>
 
+<fieldset class="hide-print">
+  <legend>Inzage mode</legend>
+  <input
+    type="radio"
+    id="inzage"
+    value={true}
+    name="Inzage"
+    bind:group={inzage}
+  />
+  <label for="hide-letter">Enable</label>
+  <input
+    type="radio"
+    id="inzage"
+    value={false}
+    checked
+    name="Inzage"
+    bind:group={inzage}
+  />
+  <label for="show-letter">Disable</label>
+</fieldset>
+
 <style>
+  fieldset {
+    margin:0;
+    padding: 5px;
+  }
 </style>

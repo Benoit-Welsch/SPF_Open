@@ -9,7 +9,7 @@
     type zipObj,
   } from "./helper";
 
-  export let questions: QuestionType[];
+  export let questions: QuestionType[] = [];
 
   let files: FileList;
   let assets: zipObj[];
@@ -60,4 +60,3 @@
 <button class="hide-print" on:click|preventDefault={() => window.print()}
   >Get PDF</button
 >
-<button class="hide-print" disabled>Get long PDF (broken)</button>

@@ -134,6 +134,7 @@ export const xmlToObj = (xml: zipObj): QuestionType => {
     }
     answers = [];
     prompt = [inner];
+    console.log(xDoc.getElementsByTagName("extendedTextInteraction"))
     maxLenght = Array.from(xDoc.getElementsByTagName("extendedTextInteraction")).map(i => i.getAttribute('patternMask')).map(i => i.split(',')[1].split("}")[0])
   } else {
     if (

@@ -85,13 +85,13 @@
       {/each}
     {/if}
   </div>
+  {#if oldQuestions.length > 0 && compare}
   <div class="questions">
-    {#if oldQuestions.length > 0 && compare}
       {#each oldQuestions as question}
         <Question bind:question bind:hideAnswer bind:showLetter />
       {/each}
-    {/if}
   </div>
+  {/if}
 </main>
 
 <style>
@@ -106,9 +106,7 @@
 
   main {
     display: grid;
-    grid-gap: 10px;
     grid-auto-flow: column;
-    padding: 10px;
   }
 
   .controlLeft {
@@ -127,7 +125,7 @@
     position: sticky;
     top: 0;
     max-width: 320px;
-    max-height: calc(100vh - 350px);
+    max-height: 100vh;
   }
 
   .left > * {

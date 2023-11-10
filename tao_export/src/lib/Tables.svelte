@@ -50,7 +50,7 @@
   div {
     overflow-y: scroll;
     flex: 1;
-    max-height: 100%;
+    max-height: 50vh;
   }
   h3 {
     margin: 0;
