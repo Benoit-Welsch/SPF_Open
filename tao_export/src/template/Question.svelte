@@ -1,11 +1,13 @@
 <script lang="ts">
-  import type { QuestionType, zipObj } from "../lib/helper";
+  import type { QuestionType } from "../lib/helper";
   export let question: QuestionType;
-  //export let assets: zipObj[];
 
   let questionDom;
   export let hideAnswer = false;
   export let showLetter = true;
+  export let inzage = false;
+
+  let inzageSelection = [false, false, false, false];
 </script>
 
 {#if question.show}
@@ -44,9 +46,16 @@
           ? "--answerStyle:upper-alpha; --answerCorrectStyle:upper-alpha;"
           : "--answerStyle:circle; --answerCorrectStyle:disc;"}
       >
-        {#each question.answers as answer}
+        {#each question.answers as answer, n}
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
           <li
-            class={`answer ${answer.correct && !hideAnswer ? "correct" : ""}`}
+            class:correct={(answer.correct && !hideAnswer && !inzage) ||
+              (inzage && inzageSelection[n])}
+            class="answer"
+            class:inzage
+            on:click={() => {
+                inzageSelection[n] = !inzageSelection[n];
+            }}
           >
             <div class="text">{@html answer.txt}</div>
             {#if !hideAnswer}
@@ -107,7 +116,7 @@
     flex-direction: column;
     border: 6px solid #f5f4f2;
     padding: 5px;
-    padding-left: 20px;
+padding-left: 20px;
     list-style: var(--answerStyle);
   }
 
@@ -119,6 +128,9 @@
 
   .answer.correct {
     list-style-type: var(--answerCorrectStyle);
+  }
+  .answer.correct.inzage {
+    text-decoration: underline;
   }
 
   .answer .points {

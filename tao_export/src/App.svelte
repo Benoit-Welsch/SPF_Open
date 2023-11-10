@@ -13,6 +13,7 @@
   let showInstruction = writable(true);
   let showLetter;
   let compare;
+  let inzage;
 
   let questions: QuestionType[] = [];
   let oldQuestions = questions;
@@ -61,6 +62,7 @@
           bind:showInstruction={$showInstruction}
           bind:showLetter
           bind:compare
+          bind:inzage
         />
       </div>
       <div class="input">
@@ -81,14 +83,14 @@
   <div class="questions">
     {#if questions.length > 0}
       {#each questions as question}
-        <Question bind:question bind:hideAnswer bind:showLetter />
+        <Question bind:question bind:hideAnswer bind:showLetter bind:inzage />
       {/each}
     {/if}
   </div>
   {#if oldQuestions.length > 0 && compare}
   <div class="questions">
       {#each oldQuestions as question}
-        <Question bind:question bind:hideAnswer bind:showLetter />
+        <Question bind:question bind:hideAnswer bind:showLetter bind:inzage />
       {/each}
   </div>
   {/if}
