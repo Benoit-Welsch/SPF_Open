@@ -128,6 +128,7 @@
     top: 0;
     max-width: 320px;
     max-height: 100vh;
+    padding: 5px;
   }
 
   .left > * {

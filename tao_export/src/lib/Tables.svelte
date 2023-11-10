@@ -2,7 +2,7 @@
   import type { QuestionType } from "./helper";
 
   export let questions: QuestionType[] = [];
-  let checked = false;
+  let checked = true;
 
   let text = "";
 
@@ -43,14 +43,9 @@
 {/if}
 
 <style>
-  label{
+  label {
     margin-left: 4px;
     filter: opacity(0.5);
-  }
-  div {
-    overflow-y: scroll;
-    flex: 1;
-    max-height: 50vh;
   }
   h3 {
     margin: 0;
@@ -58,5 +53,7 @@
   ul {
     list-style: none;
     padding-left: 0;
+    overflow-y: scroll;
+    max-height: 45vh;
   }
 </style>

@@ -102,6 +102,7 @@
 
   .prompt {
     padding: 0 0 0 8px;
+    margin: 5px 0;
   }
 
   .prompt :global(img) {
