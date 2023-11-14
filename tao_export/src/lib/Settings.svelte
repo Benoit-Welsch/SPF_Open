@@ -74,42 +74,42 @@
   <legend>Compare test</legend>
   <input
     type="radio"
-    id="compare"
+    id="compare-enable"
     checked
     value={true}
     name="Compare"
     bind:group={compare}
   />
-  <label for="hide-letter">Show</label>
+  <label for="compare-enable">Show</label>
   <input
     type="radio"
-    id="compare"
+    id="compare-disable"
     value={false}
     name="Compare"
     bind:group={compare}
   />
-  <label for="show-letter">Hide</label>
+  <label for="compare-disable">Hide</label>
 </fieldset>
 
 <fieldset class="hide-print">
   <legend>Inzage mode</legend>
   <input
     type="radio"
-    id="inzage"
+    id="inzage-enable"
     value={true}
     name="Inzage"
     bind:group={inzage}
   />
-  <label for="hide-letter">Enable</label>
+  <label for="inzage-enable">Enable</label>
   <input
     type="radio"
-    id="inzage"
+    id="inzage-disable"
     value={false}
     checked
     name="Inzage"
     bind:group={inzage}
   />
-  <label for="show-letter">Disable</label>
+  <label for="inzage-disable">Disable</label>
 </fieldset>
 
 <style>
